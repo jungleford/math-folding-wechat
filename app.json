@@ -1,6 +1,9 @@
 {
   "pages": [
     "pages/index/index",
+    "pages/fof/fof",
+    "pages/sof/sof",
+    "pages/about/about",
     "pages/logs/logs"
   ],
   "window": {
