@@ -1,0 +1,23 @@
+{
+  "name": "@jungleford/math-folding-wechat",
+  "version": "0.0.1",
+  "description": "WeChat (Wei Xin) Mini Program for number folding puzzels.",
+  "author": "Samuel Lee",
+  "homepage": "https://github.com/jungleford/math-folding-wechat",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/jungleford/math-folding-wechat.git"
+  },
+  "keywords": [
+    "math",
+    "math-folding",
+    "wechat"
+  ],
+  "scripts": {},
+  "dependencies": {
+    "@jungleford/math-folding": "~0.0.1",
+    "@jungleford/simple-utils": "~0.0.4",
+    "lodash": "^4.0.0"
+  },
+  "devDependencies": {}
+}
