@@ -1,1 +1,8 @@
 /* pages/fof/fof.wxss */
+@import "../common/common.wxss";
+
+.button-group {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}

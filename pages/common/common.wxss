@@ -1,0 +1,151 @@
+.action-button {
+  background-color: #FF8C00;
+  color: #FFFFFF;
+}
+
+.button-hover {
+  background-color: #2B7CE9;
+}
+
+.medium-button {
+  width: 200rpx;
+  height: 100rpx;
+  margin: 40rpx;
+  font-size: 34rpx;
+}
+
+.small-button {
+  width: 160rpx;
+  height: 60rpx;
+  margin: 20rpx;
+  font-size: 26rpx;
+}
+
+.small-label {
+  padding-top: 24rpx;
+}
+
+.container-no-padding {
+  padding-top: 20rpx;
+}
+
+.title {
+  font-size: xx-large;
+  font-weight: bolder;
+}
+
+.subtitle {
+  font-size: large;
+  font-weight: bold;
+}
+
+.content {
+  width: 90%;
+  padding-top: 10rpx;
+}
+
+.latex {
+  height: 36rpx;
+  text-align: left;
+}
+
+.description {
+  display: inline;
+}
+
+.picker {
+  width: 80%;
+  height: 100rpx;
+}
+
+.picker-adapt {
+  height: 100rpx;
+  line-height: 100rpx;
+}
+
+.text-list {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+.block-list-item {
+  margin: 20rpx 0;
+  background-color: #FFFFFF;
+  border-radius: 4rpx;
+  overflow: hidden;
+}
+
+.block-list-item:first-child {
+  margin-top: 0;
+}
+
+.block-list-item-arrow {
+  padding-left: 16rpx;
+  padding-right: 26rpx;
+  position: relative;
+}
+
+.block-list-item-arrow:after {
+  content: " ";
+  display: inline-block;
+  height: 18rpx;
+  width: 18rpx;
+  border-width: 2rpx 2rpx 0 0;
+  border-color: #888888;
+  border-style: solid;
+  transform: rotate(45deg);
+  position: absolute;
+  top: 50%;
+  margin-top: -8rpx;
+  right: 28rpx;
+}
+
+.block-list-item-arrow-down::after {
+  transform: rotate(135deg);
+}
+
+.block-list-item-hd {
+  padding: 10rpx;
+  display: flex;
+  align-items: center;
+  background-color: #EEEEEE;
+
+  transition: opacity .3s;
+}
+
+.block-list-item-hd-show {
+  padding: 30rpx;
+  opacity: 1;
+}
+
+.block-list-item-bd {
+  height: 0;
+  overflow: auto;
+}
+
+.block-list-item-bd-show {
+  height: auto;
+}
+
+.item-box {
+  opacity: 1;
+  position: relative;
+  background-color: #FFFFFF;
+  line-height: 1.41176471;
+  font-size: 34rpx;
+
+  transform: translateY(-50%);
+  transition: .3s;
+}
+
+.item-box-show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.card-row {
+  display: flex;
+}

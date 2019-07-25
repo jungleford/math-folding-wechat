@@ -1,8 +1,8 @@
 <!--index.wxml-->
 <view class="container">
   <view class="button-group">
-  <button id="about" bindtap="bindViewTap" class="action-button" hover-class="button-hover"> 说 明 </button>
-  <button id="fof" bindtap="bindViewTap" class="action-button" hover-class="button-hover"> 一阶对折 </button>
-  <button id="sof" bindtap="bindViewTap" class="action-button" hover-class="button-hover"> 二阶对折 </button>
+    <button id="about" bindtap="bindViewTap" class="action-button medium-button" hover-class="button-hover"> 说 明 </button>
+    <button id="fof" bindtap="bindViewTap" class="action-button medium-button" hover-class="button-hover"> 一阶对折 </button>
+    <button id="sof" bindtap="bindViewTap" class="action-button medium-button" hover-class="button-hover"> 二阶对折 </button>
   </view>
 </view>

@@ -1,0 +1,10 @@
+/* components/card.wxss */
+.card {
+  padding: 4rpx;
+  margin: 10rpx;
+  text-align: center;
+}
+
+.card-content {
+  font-style: bold;
+}

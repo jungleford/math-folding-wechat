@@ -1,2 +1,97 @@
 <!--pages/fof/fof.wxml-->
-<text>pages/fof/fof.wxml</text>
+<view class="container container-no-padding">
+  <!-- 标题 -->
+  <text class="title">一阶对折</text>
+
+  <view class="block-list content">
+    <block wx:for-items="{{list}}" wx:key="{{item.id}}">
+      <view wx:if="{{item.visible}}" class="block-list-item">
+
+        <!-- 小标题 -->
+        <view id="{{item.id}}" class="block-list-item-hd {{item.open ? 'block-list-item-hd-show' : ''}}" bindtap="toggleBlock">
+          <view class="block-list-item-arrow {{item.open ? 'block-list-item-arrow-down' : ''}}"></view>
+          <text class="subtitle">{{item.name}}</text>
+        </view>
+
+        <!-- 选项 -->
+        <view wx:if="{{item.id === 'option'}}" class="block-list-item-bd {{item.open ? 'block-list-item-bd-show' : ''}}">
+          <picker-view indicator-class="picker-adapt" class="picker item-box {{item.open ? 'item-box-show' : ''}}" value="{{[0, 0]}}" bindchange="changeOption">
+            <picker-view-column>
+              <view wx:for="{{algorithms}}" wx:key="{{item}}" class="picker-adapt" style="color: red;">算法：{{item}}</view>
+            </picker-view-column>
+            <picker-view-column>
+              <view wx:for="{{uis}}" wx:key="{{item}}" class="picker-adapt" style="color: blue;">样式：{{item}}</view>
+            </picker-view-column>
+          </picker-view>
+        </view>
+
+        <!-- 问题描述 -->
+        <view wx:elif="{{item.id === 'question'}}" class="block-list-item-bd {{item.open ? 'block-list-item-bd-show' : ''}}">
+          <view class="description item-box {{item.open ? 'item-box-show' : ''}}">
+            <text>一张纸条，均分成n格，每个格子内按从左到右顺序写下自然数序列</text><image class="latex" mode="aspectFit" src="http://latex.codecogs.com/gif.latex?[1,2,...,n],%5Cquad%20n=2^k"></image><text>将纸条从右往左不断对折（共k步），直至剩下一个格子，求：</text>
+            <view class="text-list">
+              <text>1. 最后从下往上数字的序列</text>
+              <text>2. 数字x的最终位置</text>
+              <text>3. 最终序列中位置p的数字</text>
+            </view>
+          </view>
+        </view>
+
+        <!-- 参数 -->
+        <view wx:elif="{{item.id === 'param'}}" class="block-list-item-bd {{item.open ? 'block-list-item-bd-show' : ''}}">
+          <picker-view indicator-class="picker-adapt" class="picker item-box {{item.open ? 'item-box-show' : ''}}" value="{{[power - 1]}}" bindchange="changePower">
+            <text class="small-label">幂次：</text>
+            <picker-view-column>
+              <view wx:for="{{powers}}" wx:key="{{item}}" class="picker-adapt">{{item}}</view>
+            </picker-view-column>
+          </picker-view>
+          <view class="button-group">
+            <button id="fold" bindtap="doFolding" class="action-button small-button" hover-class="button-hover">开始折叠</button>
+            <button id="reset" bindtap="reset" class="small-button" hover-class="button-hover">重 置</button>
+          </view>
+        </view>
+
+        <!-- 初始序列 -->
+        <view wx:elif="{{item.id === 'initial'}}" class="block-list-item-bd {{item.open ? 'block-list-item-bd-show' : ''}}">
+
+          <!-- 卡片模式 -->
+          <view wx:if="{{ui === _uis.GRAPHICS}}" class="card-row">
+            <block wx:for="{{original}}" wx:key="{{index}}">
+              <card width="40" background="{{colors[index]}}" content="{{item}}"></card>
+            </block>
+          </view>
+
+          <!-- 普通模式 -->
+          <view wx:else>{{original}}</view>
+        </view>
+
+        <!-- 结果序列 -->
+        <view wx:elif="{{item.id === 'final'}}" class="block-list-item-bd {{item.open ? 'block-list-item-bd-show' : ''}}">
+
+          <!-- 卡片模式 -->
+          <view wx:if="{{ui === _uis.GRAPHICS}}" class="card-row">
+            <block wx:for="{{result}}" wx:key="{{index}}">
+              <card width="40" background="{{colors[result[index] - 1]}}" content="{{item}}"></card>
+            </block>
+          </view>
+
+          <!-- 卡片模式 -->
+          <view wx:else>{{result}}</view>
+        </view>
+
+        <!-- 探索 -->
+        <view wx:elif="{{item.id === 'explore'}}" class="block-list-item-bd {{item.open ? 'block-list-item-bd-show' : ''}}">
+        </view>
+
+        <!-- 步骤重现 -->
+        <view wx:elif="{{item.id === 'steps'}}" class="block-list-item-bd {{item.open ? 'block-list-item-bd-show' : ''}}">
+        </view>
+
+        <!-- 反向折叠 -->
+        <view wx:elif="{{item.id === 'reverse'}}" class="block-list-item-bd {{item.open ? 'block-list-item-bd-show' : ''}}">
+        </view>
+
+      </view>
+    </block>
+  </view>
+</view>

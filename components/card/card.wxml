@@ -1,0 +1,5 @@
+<!--components/card.wxml-->
+<view class="card"
+      style="width: {{width}}rpx; height: {{width}}rpx; line-height: {{width}}rpx; background-color: {{background}}; color: {{foreground}};">
+  <text class="card-content">{{content}}</text>
+</view>
