@@ -5,19 +5,27 @@ const Folding = require('@jungleford/math-folding').FOF;
 const utils = require('@jungleford/simple-utils').Utils;
 const uiConstants = require('../../utils/constants.js');
 
-let algorithms = [];
+const language = wx.T.getLanguage();
+
+const algorithms = [];
 _each(serviceConstants.algorithm, alg => {
-  algorithms.push(alg);
+  algorithms.push({id: alg, name: language[alg]});
 });
 
-let uis = [];
+const uis = [];
 _each(uiConstants.style, ui => {
-  uis.push(ui);
+  uis.push({id: ui, name: language[ui]});
 });
 
-let defaultPower = 3;
-let maxPower = 5;
-let defaultService = new Folding(defaultPower);
+const defaultPower = 3;
+const maxPower = 5;
+const defaultService = new Folding(defaultPower);
+
+// 对于data内的私有字段，它仅能保存primitive类型值或可以JSON序列化的对象。
+// 至于在FOF和SOF中定义的方法经过setData()之后都会丢失。
+// 因此service对象不得不定义在此。
+let service = defaultService;
+let serviceReverse = null;
 
 Page({
   /**
@@ -45,6 +53,11 @@ Page({
         name: '初始序列',
         open: true,
         visible: true
+      }, {
+        id: 'intro',
+        name: '计算方法',
+        open: true,
+        visible: false
       }, {
         id: 'final',
         name: '结果序列',
@@ -78,12 +91,11 @@ Page({
     powers: utils.generateNaturalSequence(maxPower),
     power: defaultPower, // k
     count: defaultService.getCount(), // 2^k
-    service: defaultService,
 
-    original: defaultService.init(), // an one-dimension array
-    result: defaultService.init(), // an one-dimension array
+    original: defaultService.init(), // 一维数组
+    result: defaultService.init(), // 一维数组
     resultReset: true,
-    colors: utils.generateGradualColors(defaultService.getCount()), // an one-dimension array
+    colors: utils.generateGradualColors(defaultService.getCount()), // 一维数组
 
     number: 1,
     position: 1,
@@ -91,12 +103,14 @@ Page({
     activeStep: 0,
     activeStepContent: [],
 
-    serviceReverse: null,
     resultReverse: null,
     activeStepReverse: 0,
     activeStepContentReverse: []
   },
 
+  /**
+   * 展开/收起一个区块
+   */
   toggleBlock: function (e) {
     let id = e.currentTarget.id
     let list = this.data.list;
@@ -113,39 +127,36 @@ Page({
     });
   },
 
-  changeOption: function (e) {
+  /**
+   * 切换算法
+   */
+  changeAlgorithm: function (e) {
     let value = e.detail.value;
     let list = this.data.list;
-
-    this.setData({
-      algorithm: this.data.algorithms[value[0]],
-      ui: this.data.uis[value[1]]
-    });
+    let algorithm = this.data.algorithms[value];
+    let introOpen = algorithm.id === this.data._algorithms.FORMULA;
+    let resetOriginal = service.init(true);
+    serviceReverse = null;
 
     _each(list, item => {
       if (item.id === 'final' || item.id === 'explore' || item.id === 'steps' || item.id === 'reverse') {
         item.visible = false;
+      } else if (item.id === 'intro') {
+        item.visible = introOpen;
+        item.open = introOpen;
+      } else {
+        item.open = true;
       }
     });
+
     this.setData({
-      list: list
-    });
+      list: list,
 
-    console.debug('当前算法：' + this.data.algorithm + '，当前样式：' + this.data.ui);
-  },
+      algorithm: algorithm,
 
-  changePower: function (e) {
-    let newPower = parseInt(e.detail.value) + 1;
-    let newService = new Folding(newPower);
-    this.setData({
-      power: newPower,
-      count: newService.getCount(),
-      service: newService,
-
-      original: newService.init(),
-      result: newService.init(),
+      original: resetOriginal,
+      result: resetOriginal,
       resultReset: true,
-      colors: utils.generateGradualColors(newService.getCount()),
 
       number: 1,
       position: 1,
@@ -153,7 +164,52 @@ Page({
       activeStep: 0,
       activeStepContent: [],
 
-      serviceReverse: null,
+      resultReverse: null,
+      activeStepReverse: 0,
+      activeStepContentReverse: []
+    });
+
+    console.debug('当前算法：' + this.data.algorithm.id);
+  },
+
+  /**
+   * 切换样式
+   */
+  changeStyle: function (e) {
+    let value = e.detail.value;
+
+    this.setData({
+      ui: this.data.uis[value]
+    });
+
+    console.debug('当前样式：' + this.data.ui.id);
+  },
+
+  /**
+   * 设定k值
+   */
+  changePower: function (e) {
+    let newPower = parseInt(e.detail.value) + 1;
+    service = new Folding(newPower); // 更新service
+    let resetOriginal = service.init();
+    let count = service.getCount();
+    serviceReverse = null;
+
+    this.setData({
+      power: newPower,
+      count: count,
+
+      original: resetOriginal,
+      result: resetOriginal,
+      resultReset: true,
+      colors: utils.generateGradualColors(count),
+
+      number: 1,
+      position: 1,
+
+      activeStep: 0,
+      activeStepContent: [],
+
       resultReverse: null,
       activeStepReverse: 0,
       activeStepContentReverse: []
@@ -161,12 +217,21 @@ Page({
     console.debug('当前幂次：' + this.data.power);
   },
 
+  /**
+   * 开始折叠
+   */
   doFolding: function (e) {
     let list = this.data.list;
+    let result = service.compute(this.data.algorithm.id);
+    serviceReverse = new Folding(this.data.power, result);
 
     _each(list, item => {
       if (item.id === 'final' || item.id === 'explore') {
         item.visible = true;
+      }
+
+      if (item.id === 'initial' || item.id === 'final' || item.id === 'explore') {
+        item.open = true;
       }
 
       if (this.data.algorithm === serviceConstants.algorithm.RECURSIVE && (item.id === 'steps' || item.id === 'reverse')) {
@@ -174,10 +239,22 @@ Page({
       }
     });
     this.setData({
-      list: list
+      list: list,
+
+      result: result,
+      resultReset: false,
+      activeStep: 0,
+      activeStepContent: this.data.algorithm === serviceConstants.algorithm.RECURSIVE ? service.getSteps() : [],
+
+      resultReverse: serviceReverse.compute(this.data.algorithm.id),
+      activeStepReverse: 0,
+      activeStepContentReverse: this.data.algorithm === serviceConstants.algorithm.RECURSIVE ? serviceReverse.getSteps() : []
     });
   },
 
+  /**
+   * 重置界面
+   */
   reset: function (e) {
     let list = this.data.list;
 
@@ -187,63 +264,54 @@ Page({
       }
     });
     this.setData({
-      list: list
+      list: list,
+
+      result: this.data.original,
+      resultReset: true,
+      activeStep: 0,
+
+      resultReverse: serviceReverse ? serviceReverse.init() : null,
+      activeStepReverse: 0
     });
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
-  onLoad: function (options) {
-
-  },
+  onLoad: function (options) {},
 
   /**
    * 生命周期函数--监听页面初次渲染完成
    */
-  onReady: function () {
-
-  },
+  onReady: function () {},
 
   /**
    * 生命周期函数--监听页面显示
    */
-  onShow: function () {
-
-  },
+  onShow: function () {},
 
   /**
    * 生命周期函数--监听页面隐藏
    */
-  onHide: function () {
-
-  },
+  onHide: function () {},
 
   /**
    * 生命周期函数--监听页面卸载
    */
-  onUnload: function () {
-
-  },
+  onUnload: function () {},
 
   /**
    * 页面相关事件处理函数--监听用户下拉动作
    */
-  onPullDownRefresh: function () {
-
-  },
+  onPullDownRefresh: function () {},
 
   /**
    * 页面上拉触底事件的处理函数
    */
-  onReachBottom: function () {
-
-  },
+  onReachBottom: function () {},
 
   /**
    * 用户点击右上角分享
    */
-  onShareAppMessage: function () {
-
-  }
+  onShareAppMessage: function () {}
 })

@@ -15,12 +15,17 @@
 
         <!-- 选项 -->
         <view wx:if="{{item.id === 'option'}}" class="block-list-item-bd {{item.open ? 'block-list-item-bd-show' : ''}}">
-          <picker-view indicator-class="picker-adapt" class="picker item-box {{item.open ? 'item-box-show' : ''}}" value="{{[0, 0]}}" bindchange="changeOption">
+          <picker-view indicator-class="picker-adapt" class="picker item-box {{item.open ? 'item-box-show' : ''}}" value="{{[0]}}" bindchange="changeAlgorithm">
+            <text class="small-label">选择算法：</text>
             <picker-view-column>
-              <view wx:for="{{algorithms}}" wx:key="{{item}}" class="picker-adapt" style="color: red;">算法：{{item}}</view>
+              <view wx:for="{{algorithms}}" wx:key="{{item}}" class="picker-adapt" style="color: red;">{{item.name}}</view>
             </picker-view-column>
+          </picker-view>
+
+          <picker-view indicator-class="picker-adapt" class="picker item-box {{item.open ? 'item-box-show' : ''}}" value="{{[0]}}" bindchange="changeStyle">
+            <text class="small-label">选择样式：</text>
             <picker-view-column>
-              <view wx:for="{{uis}}" wx:key="{{item}}" class="picker-adapt" style="color: blue;">样式：{{item}}</view>
+              <view wx:for="{{uis}}" wx:key="{{item}}" class="picker-adapt" style="color: blue;">{{item.name}}</view>
             </picker-view-column>
           </picker-view>
         </view>
@@ -44,6 +49,7 @@
             <picker-view-column>
               <view wx:for="{{powers}}" wx:key="{{item}}" class="picker-adapt">{{item}}</view>
             </picker-view-column>
+            <text class="small-label">{{'（总共 ' + count + ' 个数字或元素）'}}</text>
           </picker-view>
           <view class="button-group">
             <button id="fold" bindtap="doFolding" class="action-button small-button" hover-class="button-hover">开始折叠</button>
@@ -53,9 +59,8 @@
 
         <!-- 初始序列 -->
         <view wx:elif="{{item.id === 'initial'}}" class="block-list-item-bd {{item.open ? 'block-list-item-bd-show' : ''}}">
-
           <!-- 卡片模式 -->
-          <view wx:if="{{ui === _uis.GRAPHICS}}" class="card-row">
+          <view wx:if="{{ui.id === _uis.GRAPHICS}}" class="card-row">
             <block wx:for="{{original}}" wx:key="{{index}}">
               <card width="40" background="{{colors[index]}}" content="{{item}}"></card>
             </block>
@@ -65,17 +70,22 @@
           <view wx:else>{{original}}</view>
         </view>
 
+        <!-- 非递归算法描述 -->
+        <view wx:elif="{{item.id === 'intro'}}" class="block-list-item-bd {{item.open ? 'block-list-item-bd-show' : ''}}">
+          <view class="description item-box {{item.open ? 'item-box-show' : ''}}">
+          </view>
+        </view>
+
         <!-- 结果序列 -->
         <view wx:elif="{{item.id === 'final'}}" class="block-list-item-bd {{item.open ? 'block-list-item-bd-show' : ''}}">
-
           <!-- 卡片模式 -->
-          <view wx:if="{{ui === _uis.GRAPHICS}}" class="card-row">
+          <view wx:if="{{ui.id === _uis.GRAPHICS}}" class="card-row">
             <block wx:for="{{result}}" wx:key="{{index}}">
               <card width="40" background="{{colors[result[index] - 1]}}" content="{{item}}"></card>
             </block>
           </view>
 
-          <!-- 卡片模式 -->
+          <!-- 普通模式 -->
           <view wx:else>{{result}}</view>
         </view>
 

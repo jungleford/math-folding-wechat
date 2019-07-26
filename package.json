@@ -4,6 +4,7 @@
   "description": "WeChat (Wei Xin) Mini Program for number folding puzzels.",
   "author": "Samuel Lee",
   "homepage": "https://github.com/jungleford/math-folding-wechat",
+  "icon": "https://github.com/jungleford/math-folding/raw/master/logo.png",
   "repository": {
     "type": "git",
     "url": "git://github.com/jungleford/math-folding-wechat.git"
