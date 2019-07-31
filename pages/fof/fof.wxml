@@ -49,8 +49,10 @@
             <picker-view-column>
               <view wx:for="{{powers}}" wx:key="{{item}}" class="picker-adapt">{{item}}</view>
             </picker-view-column>
-            <text class="small-label">（总共</text><text class="computed">{{count}}</text><text class="small-label">个数字或元素）</text>
           </picker-view>
+          <view>
+            <text class="small-label">（总共</text><text class="computed">{{count}}</text><text class="small-label">个数字或元素）</text>
+          </view>
           <view class="button-group">
             <button id="fold" bindtap="doFolding" class="action small" hover-class="hover">开始折叠</button>
             <button id="reset" bindtap="reset" class="small" hover-class="hover">重 置</button>
@@ -98,10 +100,10 @@
         <view wx:elif="{{item.id === 'explore'}}" class="block-list-item-bd {{item.open ? 'show' : ''}}">
           <view class="multi-line">
             <view>
-              <text>数字</text><input class="small single-line" type="number" value="{{number}}" bindinput="changeNumber" /><text>位于第</text><text class="computed" style="color: red;">{{positionOf}}</text><text>位。</text>
+              <text>数字</text><number inline="true" min="1" max="{{count}}" value="{{number}}" bindinput="changeNumber" /><text>位于第</text><text class="computed" style="color: red;">{{positionOf}}</text><text>位。</text>
             </view>
             <view class="single-line">
-              <text>第</text><input class="small single-line" type="number" value="{{position}}" bindinput="changePosition" /><text>位上的数字是</text><text class="computed" style="color: blue;">{{valueOf}}</text><text>。</text>
+              <text>第</text><number inline="true" min="1" max="{{count}}" value="{{position}}" bindinput="changePosition" /><text>位上的数字是</text><text class="computed" style="color: blue;">{{valueOf}}</text><text>。</text>
             </view>
           </view>
         </view>

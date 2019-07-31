@@ -1,0 +1,43 @@
+/* components/number-input/number-input.wxss */
+.number {
+  margin-left: 5px;
+  margin-right: 5px;
+}
+
+.step, .input {
+  display: inline-block;
+}
+
+.step {
+  /* border: 1px solid; */
+  width: 20px;
+  margin: 0 0 -5px 0;
+  text-align: center;
+}
+
+.step.hover {
+  background-color: #2B7CE9;
+}
+
+.step.disabled {
+  border: none;
+  color: lightgray;
+}
+
+.input {
+  border: 0.5px solid;
+  margin: 0 0 -5px 0;
+  text-align: center;
+}
+
+.input.small {
+  width: 20px;
+}
+
+.input.medium {
+  width: 40px;
+}
+
+.input.large {
+  width: 100px;
+}

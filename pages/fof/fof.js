@@ -291,28 +291,20 @@ Page({
   },
 
   changeNumber: function (e) {
-    let newNumber = parseInt(e.detail.value);
+    let newNumber = e.detail.value; // value值是从number组件通过triggerEvent传上来的
 
-    if (!service.isComputeDone() || isNaN(newNumber) || newNumber < 1) {
+    if (!service.isComputeDone()) {
       this.setData({ positionOf: 1 });
-      return '1';
-    } else if (newNumber > this.data.count) {
-      this.setData({ positionOf: 2 });
-      return '' + this.data.count;
     } else {
       this.setData({ positionOf: service.positionOf(newNumber) });
     }
   },
 
   changePosition: function (e) {
-    let newPos = parseInt(e.detail.value);
+    let newPos = e.detail.value; // value值是从number组件通过triggerEvent传上来的
 
-    if (!service.isComputeDone() || isNaN(newPos) || newPos < 1) {
+    if (!service.isComputeDone()) {
       this.setData({ valueOf: 1 });
-      return '1';
-    } else if (newPos > this.data.count) {
-      this.setData({ valueOf: 2 });
-      return '' + this.data.count;
     } else {
       this.setData({ valueOf: service.valueOf(newPos) });
     }
