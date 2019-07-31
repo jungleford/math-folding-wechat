@@ -103,11 +103,11 @@ Page({
     positionOf: 1,
 
     activeStep: 0,
-    activeStepContent: [],
+    activeStepContent: [], // 三维数组
 
     resultReverse: null,
     activeStepReverse: 0,
-    activeStepContentReverse: []
+    activeStepContentReverse: [] // 三维数组
   },
 
   /**
@@ -204,6 +204,10 @@ Page({
       if (item.id === 'final' || item.id === 'explore' || item.id === 'steps' || item.id === 'reverse') {
         item.visible = false;
       }
+
+      if (item.id === 'steps' || item.id === 'reverse') {
+        item.open = false;
+      }
     });
 
     this.setData({
@@ -249,21 +253,22 @@ Page({
         item.open = true;
       }
 
-      if (this.data.algorithm === serviceConstants.algorithm.RECURSIVE && (item.id === 'steps' || item.id === 'reverse')) {
+      if (this.data.algorithm.id === serviceConstants.algorithm.RECURSIVE && (item.id === 'steps' || item.id === 'reverse')) {
         item.visible = true;
       }
     });
+
     this.setData({
       list: list,
 
       result: result,
       resultReset: false,
       activeStep: 0,
-      activeStepContent: this.data.algorithm === serviceConstants.algorithm.RECURSIVE ? service.getSteps() : [],
+      activeStepContent: this.data.algorithm.id === serviceConstants.algorithm.RECURSIVE ? service.getSteps() : [],
 
       resultReverse: serviceReverse.compute(this.data.algorithm.id),
       activeStepReverse: 0,
-      activeStepContentReverse: this.data.algorithm === serviceConstants.algorithm.RECURSIVE ? serviceReverse.getSteps() : []
+      activeStepContentReverse: this.data.algorithm.id === serviceConstants.algorithm.RECURSIVE ? serviceReverse.getSteps() : []
     });
   },
 
@@ -277,7 +282,12 @@ Page({
       if (item.id === 'final' || item.id === 'explore' || item.id === 'steps' || item.id === 'reverse') {
         item.visible = false;
       }
+
+      if (item.id === 'steps' || item.id === 'reverse') {
+        item.open = false;
+      }
     });
+
     this.setData({
       list: list,
 

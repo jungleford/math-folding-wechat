@@ -8,21 +8,21 @@
       <view wx:if="{{item.visible}}" class="block-list-item">
 
         <!-- 小标题 -->
-        <view id="{{item.id}}" class="block-list-item-hd {{item.open ? 'show' : ''}}" bindtap="toggleBlock">
+        <view id="{{item.id}}" bindtap="toggleBlock" class="block-list-item-hd {{item.open ? 'show' : ''}}">
           <view class="block-list-item-arrow {{item.open ? 'block-list-item-arrow-down' : ''}}"></view>
           <text class="subtitle">{{item.name}}</text>
         </view>
 
         <!-- 选项 -->
         <view wx:if="{{item.id === 'option'}}" class="block-list-item-bd {{item.open ? 'show' : ''}}">
-          <picker-view indicator-class="picker-adapt" class="picker" value="{{[0]}}" bindchange="changeAlgorithm">
+          <picker-view value="{{[0]}}" bindchange="changeAlgorithm" indicator-class="picker-adapt" class="picker">
             <text class="small-label">选择算法：</text>
             <picker-view-column>
               <view wx:for="{{algorithms}}" wx:key="{{item}}" class="picker-adapt" style="color: red;">{{item.name}}</view>
             </picker-view-column>
           </picker-view>
 
-          <picker-view indicator-class="picker-adapt" class="picker" value="{{[0]}}" bindchange="changeStyle">
+          <picker-view value="{{[0]}}" bindchange="changeStyle" indicator-class="picker-adapt" class="picker">
             <text class="small-label">选择样式：</text>
             <picker-view-column>
               <view wx:for="{{uis}}" wx:key="{{item}}" class="picker-adapt" style="color: blue;">{{item.name}}</view>
@@ -33,7 +33,7 @@
         <!-- 问题描述 -->
         <view wx:elif="{{item.id === 'question'}}" class="block-list-item-bd {{item.open ? 'show' : ''}}">
           <view class="multi-line">
-            <text>一张纸条，均分成n格，每个格子内按从左到右顺序写下自然数序列</text><image class="latex" mode="aspectFit" src="http://latex.codecogs.com/gif.latex?[1,2,...,n],%5Cquad%20n=2^k" /><text>将纸条从右往左不断对折（共k步），直至剩下一个格子，求：</text>
+            <text>一张纸条，均分成n格，每个格子内按从左到右顺序写下自然数序列</text><image mode="aspectFit" src="http://latex.codecogs.com/gif.latex?[1,2,...,n],%5Cquad%20n=2^k" class="latex" /><text>将纸条从右往左不断对折（共k步），直至剩下一个格子，求：</text>
             <view class="text-list">
               <text>1. 最后从下往上数字的序列</text>
               <text>2. 数字x的最终位置</text>
@@ -44,7 +44,7 @@
 
         <!-- 参数 -->
         <view wx:elif="{{item.id === 'param'}}" class="block-list-item-bd {{item.open ? 'show' : ''}}">
-          <picker-view indicator-class="picker-adapt" class="picker" value="{{[power - 1]}}" bindchange="changePower">
+          <picker-view value="{{[power - 1]}}" bindchange="changePower" indicator-class="picker-adapt" class="picker">
             <text class="small-label">幂次：</text>
             <picker-view-column>
               <view wx:for="{{powers}}" wx:key="{{item}}" class="picker-adapt">{{item}}</view>
@@ -100,7 +100,7 @@
         <view wx:elif="{{item.id === 'explore'}}" class="block-list-item-bd {{item.open ? 'show' : ''}}">
           <view class="multi-line">
             <view>
-              <text>数字</text><number inline="true" min="1" max="{{count}}" value="{{number}}" bindinput="changeNumber" /><text>位于第</text><text class="computed" style="color: red;">{{positionOf}}</text><text>位。</text>
+              <text>数字</text><number inline="true" min="1" max="{{count}}" value="{{number}}" bindinput="changeNumber" /><text>在第</text><text class="computed" style="color: red;">{{positionOf}}</text><text>位。</text>
             </view>
             <view class="single-line">
               <text>第</text><number inline="true" min="1" max="{{count}}" value="{{position}}" bindinput="changePosition" /><text>位上的数字是</text><text class="computed" style="color: blue;">{{valueOf}}</text><text>。</text>
@@ -110,6 +110,31 @@
 
         <!-- 步骤重现 -->
         <view wx:elif="{{item.id === 'steps'}}" class="block-list-item-bd {{item.open ? 'show' : ''}}">
+          <view class="multi-line">
+            <view class="single-line"><text>此处展示整个对折过程（共</text><text class="computed">{{power}}</text><text>步）</text></view>
+            <block wx:for="{{activeStepContent}}" wx:for-index="stepIndex" wx:for-item="step" wx:key="{{stepIndex}}">
+              <view class="multi-line" style="margin-top: 10px;">
+                <text style="font-weight: bold;">{{stepIndex > 0 ? '第' + stepIndex + '步' : '初始序列'}}</text>
+                <view class="step">
+                  <block wx:for="{{step}}" wx:for-index="pileIndex" wx:for-item="pile" wx:key="{{pileIndex}}">
+                    <!-- 卡片模式 -->
+                    <view wx:if="{{ui.id === _uis.GRAPHICS}}" class="pile" style="width: 40px;">
+                      <block wx:for="{{pile}}" wx:key="{{index}}">
+                        <card width="40" background="{{colors[item - 1]}}" content="{{item}}" />
+                      </block>
+                    </view>
+
+                    <!-- 普通模式 -->
+                    <view wx:else class="pile" style="width: 20px;">
+                      <block wx:for="{{pile}}" wx:key="{{index}}">
+                        <span>{{item}}</span>
+                      </block>
+                    </view>
+                  </block>
+                </view>
+              </view>
+            </block>
+          </view>
         </view>
 
         <!-- 反向折叠 -->

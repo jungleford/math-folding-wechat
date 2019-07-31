@@ -1,6 +1,6 @@
 <!--components/number-input/number-input.wxml-->
 <view class="number" style="display: {{inline ? 'inline-block' : 'block'}}">
-  <view class="step {{localValue <= min ? 'disabled' : ''}}" hover-class="hover" style="border-right: 0;" bindtap="countDown">{{'<'}}</view>
-  <input class="input {{size}}" type="number" value="{{localValue}}" bindinput="onInput" bindblur="onBlur" />
-  <view class="step {{localValue >= max ? 'disabled' : ''}}" hover-class="hover" style="border-left: 0;" bindtap="countUp">{{'>'}}</view>
+  <view bindtap="countDown" class="step {{localValue <= min ? 'disabled' : ''}}" hover-class="hover" style="border-right: 0;">{{'<'}}</view>
+  <input type="number" value="{{localValue}}" bindinput="onInput" bindblur="onBlur" class="input {{size}}" />
+  <view bindtap="countUp" class="step {{localValue >= max ? 'disabled' : ''}}" hover-class="hover" style="border-left: 0;">{{'>'}}</view>
 </view>
