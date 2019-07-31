@@ -105,6 +105,12 @@
             <view class="single-line">
               <text>第</text><number inline="true" min="1" max="{{count}}" value="{{position}}" bindinput="changePosition" /><text>位上的数字是</text><text class="computed" style="color: blue;">{{valueOf}}</text><text>。</text>
             </view>
+            <view class="single-line">
+              <text>你可以发现，在结果序列当中，数字x和位置p呈现</text><text class="computed" style="color: red;">对称</text><text>关系：</text>
+            </view>
+            <view>
+              <text>一个数字对应的位置，会在同序号位置上得到等于前面那个位置序号的数。</text>
+            </view>
           </view>
         </view>
 
@@ -139,6 +145,33 @@
 
         <!-- 反向折叠 -->
         <view wx:elif="{{item.id === 'reverse'}}" class="block-list-item-bd {{item.open ? 'show' : ''}}">
+          <view class="multi-line">
+            <text>如果把对折得到的最终结果序列再次按照同样方式进行对折，你猜结果会是什么？</text>
+            <block wx:for="{{activeStepContentReverse}}" wx:for-index="stepIndex" wx:for-item="step" wx:key="{{stepIndex}}">
+              <view class="multi-line" style="margin-top: 10px;">
+                <text style="font-weight: bold;">{{stepIndex > 0 ? '第' + stepIndex + '步' : '结果序列'}}</text>
+                <view class="step">
+                  <block wx:for="{{step}}" wx:for-index="pileIndex" wx:for-item="pile" wx:key="{{pileIndex}}">
+                    <!-- 卡片模式 -->
+                    <view wx:if="{{ui.id === _uis.GRAPHICS}}" class="pile" style="width: 40px;">
+                      <block wx:for="{{pile}}" wx:key="{{index}}">
+                        <card width="40" background="{{colors[item - 1]}}" content="{{item}}" />
+                      </block>
+                    </view>
+
+                    <!-- 普通模式 -->
+                    <view wx:else class="pile" style="width: 20px;">
+                      <block wx:for="{{pile}}" wx:key="{{index}}">
+                        <span>{{item}}</span>
+                      </block>
+                    </view>
+                  </block>
+                </view>
+              </view>
+            </block>
+            <text style="margin-top: 10px;">神奇吧？最后你会得到初始序列！</text>
+            <view class="single-line"><text>这就是一阶对折的</text><text class="computed" style="color: red;">对称性</text><text>！</text></view>
+          </view>
         </view>
 
       </view>
