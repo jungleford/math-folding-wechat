@@ -1,20 +1,20 @@
-.action-button {
+button.action {
   background-color: #FF8C00;
   color: #FFFFFF;
 }
 
-.button-hover {
+button.hover {
   background-color: #2B7CE9;
 }
 
-.medium-button {
+button.medium {
   width: 200rpx;
   height: 100rpx;
   margin: 40rpx;
   font-size: 34rpx;
 }
 
-.small-button {
+button.small {
   width: 160rpx;
   height: 60rpx;
   margin: 20rpx;
@@ -49,8 +49,28 @@
   text-align: left;
 }
 
-.description {
-  display: inline;
+.latex.large {
+  height: 108rpx;
+}
+
+.single-line {
+  display: inline-block;
+}
+
+input.small {
+  width: 40rpx;
+}
+
+input.single-line {
+  border: 2rpx solid;
+  text-align: center;
+  margin: 0rpx 10rpx -10rpx 10rpx;
+}
+
+.multi-line {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
 }
 
 .picker {
@@ -88,7 +108,7 @@
   position: relative;
 }
 
-.block-list-item-arrow:after {
+.block-list-item-arrow::after {
   content: " ";
   display: inline-block;
   height: 18rpx;
@@ -116,8 +136,8 @@
   transition: opacity .3s;
 }
 
-.block-list-item-hd-show {
-  padding: 30rpx;
+.block-list-item-hd.show {
+  padding: 10rpx 10rpx 10rpx 20rpx;
   opacity: 1;
 }
 
@@ -126,26 +146,22 @@
   overflow: auto;
 }
 
-.block-list-item-bd-show {
+.block-list-item-bd.show {
   height: auto;
 }
 
-.item-box {
-  opacity: 1;
-  position: relative;
-  background-color: #FFFFFF;
-  line-height: 1.41176471;
-  font-size: 34rpx;
-
-  transform: translateY(-50%);
-  transition: .3s;
-}
-
-.item-box-show {
-  opacity: 1;
-  transform: translateY(0);
+.normal-row {
+  padding-top: 20rpx;
 }
 
 .card-row {
   display: flex;
+  padding-top: 20rpx;
+}
+
+.computed {
+  font-size: xx-large;
+  font-weight: bolder;
+  margin-left: 10rpx;
+  margin-right: 10rpx;
 }

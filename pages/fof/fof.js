@@ -99,6 +99,8 @@ Page({
 
     number: 1,
     position: 1,
+    valueOf: 1,
+    positionOf: 1,
 
     activeStep: 0,
     activeStepContent: [],
@@ -160,6 +162,8 @@ Page({
 
       number: 1,
       position: 1,
+      valueOf: 1,
+      positionOf: 1,
 
       activeStep: 0,
       activeStepContent: [],
@@ -194,8 +198,17 @@ Page({
     let resetOriginal = service.init();
     let count = service.getCount();
     serviceReverse = null;
+    let list = this.data.list;
+
+    _each(list, item => {
+      if (item.id === 'final' || item.id === 'explore' || item.id === 'steps' || item.id === 'reverse') {
+        item.visible = false;
+      }
+    });
 
     this.setData({
+      list: list,
+
       power: newPower,
       count: count,
 
@@ -206,6 +219,8 @@ Page({
 
       number: 1,
       position: 1,
+      valueOf: 1,
+      positionOf: 1,
 
       activeStep: 0,
       activeStepContent: [],
@@ -273,6 +288,34 @@ Page({
       resultReverse: serviceReverse ? serviceReverse.init() : null,
       activeStepReverse: 0
     });
+  },
+
+  changeNumber: function (e) {
+    let newNumber = parseInt(e.detail.value);
+
+    if (!service.isComputeDone() || isNaN(newNumber) || newNumber < 1) {
+      this.setData({ positionOf: 1 });
+      return '1';
+    } else if (newNumber > this.data.count) {
+      this.setData({ positionOf: 2 });
+      return '' + this.data.count;
+    } else {
+      this.setData({ positionOf: service.positionOf(newNumber) });
+    }
+  },
+
+  changePosition: function (e) {
+    let newPos = parseInt(e.detail.value);
+
+    if (!service.isComputeDone() || isNaN(newPos) || newPos < 1) {
+      this.setData({ valueOf: 1 });
+      return '1';
+    } else if (newPos > this.data.count) {
+      this.setData({ valueOf: 2 });
+      return '' + this.data.count;
+    } else {
+      this.setData({ valueOf: service.valueOf(newPos) });
+    }
   },
 
   /**
