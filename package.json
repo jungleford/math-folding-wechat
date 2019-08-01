@@ -17,8 +17,7 @@
   "scripts": {},
   "dependencies": {
     "@jungleford/math-folding": "~0.1.0",
-    "@jungleford/simple-utils": "~0.1.0",
-    "lodash.foreach": "^4.0.0"
+    "@jungleford/simple-utils": "~0.1.0"
   },
   "devDependencies": {}
 }

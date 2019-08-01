@@ -124,7 +124,7 @@
                 <view class="step">
                   <block wx:for="{{step}}" wx:for-index="pileIndex" wx:for-item="pile" wx:key="{{pileIndex}}">
                     <!-- 卡片模式 -->
-                    <view wx:if="{{ui.id === _uis.GRAPHICS}}" class="pile" style="width: 40px;">
+                    <view wx:if="{{ui.id === _uis.GRAPHICS}}" class="pile">
                       <block wx:for="{{pile}}" wx:key="{{index}}">
                         <card width="40" background="{{colors[item - 1]}}" content="{{item}}" />
                       </block>
@@ -153,7 +153,7 @@
                 <view class="step">
                   <block wx:for="{{step}}" wx:for-index="pileIndex" wx:for-item="pile" wx:key="{{pileIndex}}">
                     <!-- 卡片模式 -->
-                    <view wx:if="{{ui.id === _uis.GRAPHICS}}" class="pile" style="width: 40px;">
+                    <view wx:if="{{ui.id === _uis.GRAPHICS}}" class="pile">
                       <block wx:for="{{pile}}" wx:key="{{index}}">
                         <card width="40" background="{{colors[item - 1]}}" content="{{item}}" />
                       </block>

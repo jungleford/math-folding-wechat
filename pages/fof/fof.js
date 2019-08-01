@@ -1,19 +1,19 @@
 // pages/fof/fof.js
-const _each = require('lodash.foreach'); // 直接import lodash有错误，需要分别导入小包
 const serviceConstants = require('@jungleford/math-folding').Constants;
 const Folding = require('@jungleford/math-folding').FOF;
 const utils = require('@jungleford/simple-utils').Utils;
+const _ = require('@jungleford/simple-utils').Libs._;
 const uiConstants = require('../../utils/constants.js');
 
 const language = wx.T.getLanguage();
 
 const algorithms = [];
-_each(serviceConstants.algorithm, alg => {
+_.each(serviceConstants.algorithm, alg => {
   algorithms.push({id: alg, name: language[alg]});
 });
 
 const uis = [];
-_each(uiConstants.style, ui => {
+_.each(uiConstants.style, ui => {
   uis.push({id: ui, name: language[ui]});
 });
 
@@ -94,7 +94,6 @@ Page({
 
     original: defaultService.init(), // 一维数组
     result: defaultService.init(), // 一维数组
-    resultReset: true,
     colors: utils.generateGradualColors(defaultService.getCount()), // 一维数组
 
     number: 1,
@@ -102,11 +101,7 @@ Page({
     valueOf: 1,
     positionOf: 1,
 
-    activeStep: 0,
     activeStepContent: [], // 三维数组
-
-    resultReverse: null,
-    activeStepReverse: 0,
     activeStepContentReverse: [] // 三维数组
   },
 
@@ -117,7 +112,7 @@ Page({
     let id = e.currentTarget.id
     let list = this.data.list;
 
-    _each(list, item => {
+    _.each(list, item => {
       if (item.id === id) {
         item.open = !item.open;
       } else {
@@ -140,7 +135,7 @@ Page({
     let resetOriginal = service.init(true);
     serviceReverse = null;
 
-    _each(list, item => {
+    _.each(list, item => {
       if (item.id === 'final' || item.id === 'explore' || item.id === 'steps' || item.id === 'reverse') {
         item.visible = false;
       } else if (item.id === 'intro') {
@@ -158,18 +153,13 @@ Page({
 
       original: resetOriginal,
       result: resetOriginal,
-      resultReset: true,
 
       number: 1,
       position: 1,
       valueOf: 1,
       positionOf: 1,
 
-      activeStep: 0,
       activeStepContent: [],
-
-      resultReverse: null,
-      activeStepReverse: 0,
       activeStepContentReverse: []
     });
 
@@ -200,7 +190,7 @@ Page({
     serviceReverse = null;
     let list = this.data.list;
 
-    _each(list, item => {
+    _.each(list, item => {
       if (item.id === 'final' || item.id === 'explore' || item.id === 'steps' || item.id === 'reverse') {
         item.visible = false;
       }
@@ -218,7 +208,6 @@ Page({
 
       original: resetOriginal,
       result: resetOriginal,
-      resultReset: true,
       colors: utils.generateGradualColors(count),
 
       number: 1,
@@ -226,11 +215,7 @@ Page({
       valueOf: 1,
       positionOf: 1,
 
-      activeStep: 0,
       activeStepContent: [],
-
-      resultReverse: null,
-      activeStepReverse: 0,
       activeStepContentReverse: []
     });
     console.debug('当前幂次：' + this.data.power);
@@ -240,11 +225,13 @@ Page({
    * 开始折叠
    */
   doFolding: function (e) {
+    let alg = this.data.algorithm.id;
     let list = this.data.list;
-    let result = service.compute(this.data.algorithm.id);
+    let result = service.compute(alg);
     serviceReverse = new Folding(this.data.power, result);
+    serviceReverse.compute(alg);
 
-    _each(list, item => {
+    _.each(list, item => {
       if (item.id === 'final' || item.id === 'explore') {
         item.visible = true;
       }
@@ -253,7 +240,7 @@ Page({
         item.open = true;
       }
 
-      if (this.data.algorithm.id === serviceConstants.algorithm.RECURSIVE && (item.id === 'steps' || item.id === 'reverse')) {
+      if (alg === serviceConstants.algorithm.RECURSIVE && (item.id === 'steps' || item.id === 'reverse')) {
         item.visible = true;
       }
     });
@@ -262,13 +249,9 @@ Page({
       list: list,
 
       result: result,
-      resultReset: false,
-      activeStep: 0,
-      activeStepContent: this.data.algorithm.id === serviceConstants.algorithm.RECURSIVE ? service.getSteps() : [],
 
-      resultReverse: serviceReverse.compute(this.data.algorithm.id),
-      activeStepReverse: 0,
-      activeStepContentReverse: this.data.algorithm.id === serviceConstants.algorithm.RECURSIVE ? serviceReverse.getSteps() : []
+      activeStepContent: alg === serviceConstants.algorithm.RECURSIVE ? service.getSteps() : [],
+      activeStepContentReverse: alg === serviceConstants.algorithm.RECURSIVE ? serviceReverse.getSteps() : []
     });
   },
 
@@ -278,7 +261,7 @@ Page({
   reset: function (e) {
     let list = this.data.list;
 
-    _each(list, item => {
+    _.each(list, item => {
       if (item.id === 'final' || item.id === 'explore' || item.id === 'steps' || item.id === 'reverse') {
         item.visible = false;
       }
@@ -292,11 +275,9 @@ Page({
       list: list,
 
       result: this.data.original,
-      resultReset: true,
-      activeStep: 0,
 
-      resultReverse: serviceReverse ? serviceReverse.init() : null,
-      activeStepReverse: 0
+      activeStepContent: [],
+      activeStepContentReverse: []
     });
   },
 
