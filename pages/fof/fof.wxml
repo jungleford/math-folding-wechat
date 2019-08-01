@@ -54,7 +54,7 @@
             <text class="small-label">（总共</text><text class="computed">{{count}}</text><text class="small-label">个数字或元素）</text>
           </view>
           <view class="button-group">
-            <button id="fold" bindtap="doFolding" class="action small" hover-class="hover">开始折叠</button>
+            <button id="fold" bindtap="doFolding" disabled="{{done}}" class="action small" hover-class="hover">开始折叠</button>
             <button id="reset" bindtap="reset" class="small" hover-class="hover">重 置</button>
           </view>
         </view>

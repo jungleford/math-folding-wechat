@@ -96,6 +96,8 @@ Page({
     result: defaultService.init(), // 一维数组
     colors: utils.generateGradualColors(defaultService.getCount()), // 一维数组
 
+    done: false,
+
     number: 1,
     position: 1,
     valueOf: 1,
@@ -154,6 +156,8 @@ Page({
       original: resetOriginal,
       result: resetOriginal,
 
+      done: false,
+
       number: 1,
       position: 1,
       valueOf: 1,
@@ -210,6 +214,8 @@ Page({
       result: resetOriginal,
       colors: utils.generateGradualColors(count),
 
+      done: false,
+
       number: 1,
       position: 1,
       valueOf: 1,
@@ -225,6 +231,10 @@ Page({
    * 开始折叠
    */
   doFolding: function (e) {
+    if (this.data.done) {
+      return;
+    }
+
     let alg = this.data.algorithm.id;
     let list = this.data.list;
     let result = service.compute(alg);
@@ -249,6 +259,8 @@ Page({
       list: list,
 
       result: result,
+
+      done: true,
 
       activeStepContent: alg === serviceConstants.algorithm.RECURSIVE ? service.getSteps() : [],
       activeStepContentReverse: alg === serviceConstants.algorithm.RECURSIVE ? serviceReverse.getSteps() : []
@@ -275,6 +287,8 @@ Page({
       list: list,
 
       result: this.data.original,
+
+      done: false,
 
       activeStepContent: [],
       activeStepContentReverse: []
@@ -340,4 +354,4 @@ Page({
    * 用户点击右上角分享
    */
   onShareAppMessage: function () {}
-})
+});
