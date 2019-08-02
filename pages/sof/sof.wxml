@@ -1,2 +1,164 @@
 <!--pages/sof/sof.wxml-->
-<text>pages/sof/sof.wxml</text>
+<!--pages/fof/fof.wxml-->
+<view class="container container-no-padding">
+  <!-- 标题 -->
+  <text class="title">二阶对折</text>
+
+  <view class="block-list content">
+    <block wx:for-items="{{list}}" wx:key="{{item.id}}">
+      <view wx:if="{{item.visible}}" class="block-list-item">
+
+        <!-- 小标题 -->
+        <view id="{{item.id}}" bindtap="toggleBlock" class="block-list-item-hd {{item.open ? 'show' : ''}}">
+          <view class="block-list-item-arrow {{item.open ? 'block-list-item-arrow-down' : ''}}"></view>
+          <text class="subtitle">{{item.name}}</text>
+        </view>
+
+        <!-- 选项 -->
+        <view wx:if="{{item.id === 'option'}}" class="block-list-item-bd {{item.open ? 'show' : ''}}">
+          <picker-view value="{{[0]}}" bindchange="changeAlgorithm" indicator-class="picker-adapt" class="picker">
+            <text class="small-label">选择算法：</text>
+            <picker-view-column>
+              <view wx:for="{{algorithms}}" wx:key="{{item}}" class="picker-adapt" style="color: red;">{{item.name}}</view>
+            </picker-view-column>
+          </picker-view>
+
+          <picker-view value="{{[0]}}" bindchange="changeStyle" indicator-class="picker-adapt" class="picker">
+            <text class="small-label">选择样式：</text>
+            <picker-view-column>
+              <view wx:for="{{uis}}" wx:key="{{item}}" class="picker-adapt" style="color: blue;">{{item.name}}</view>
+            </picker-view-column>
+          </picker-view>
+        </view>
+
+        <!-- 问题描述 -->
+        <view wx:elif="{{item.id === 'question'}}" class="block-list-item-bd {{item.open ? 'show' : ''}}">
+          <view class="multi-line">
+            <text>一张正方形的纸，均分成n格，先按从左到右，然后从上到下顺序在每个格子写下自然数序列</text><image mode="aspectFit" src="http://latex.codecogs.com/gif.latex?[1,2,...,n],%5Cquad%20n=4^k" class="latex" /><text>即得到方阵：</text><image mode="aspectFit" src="http://latex.codecogs.com/gif.latex?%5Cbegin%7Bpmatrix%7D1&2&%5Cldots&2^k%5C%5C2^k+1&2^k+2&%5Cldots&2^%7Bk+1%7D%5C%5C%5Cvdots&%5Cvdots&%5Cldots&%5Cvdots%5C%5C2^%7B2k-1%7D+1&2^%7B2k-1%7D+2&%5Cldots&n%5Cend%7Bpmatrix%7D" class="latex x-large" /><text>将纸条先从下往上，然后从右往左不断对折（共k轮，2k步），直至剩下一个格子，求：</text>
+            <view class="text-list">
+              <text>1. 最后从下往上数字的序列</text>
+              <text>2. 数字x的最终位置</text>
+              <text>3. 最终序列中位置p的数字</text>
+            </view>
+          </view>
+        </view>
+
+        <!-- 参数 -->
+        <view wx:elif="{{item.id === 'param'}}" class="block-list-item-bd {{item.open ? 'show' : ''}}">
+          <picker-view value="{{[power - 1]}}" bindchange="changePower" indicator-class="picker-adapt" class="picker">
+            <text class="small-label">幂次：</text>
+            <picker-view-column>
+              <view wx:for="{{powers}}" wx:key="{{item}}" class="picker-adapt">{{item}}</view>
+            </picker-view-column>
+          </picker-view>
+          <view>
+            <text class="small-label">（总共</text><text class="computed">{{count}}</text><text class="small-label">个数字或元素）</text>
+          </view>
+          <view class="button-group">
+            <button id="fold" bindtap="doFolding" disabled="{{done}}" class="action small" hover-class="hover">开始折叠</button>
+            <button id="reset" bindtap="reset" class="small" hover-class="hover">重 置</button>
+          </view>
+        </view>
+
+        <!-- 初始方阵 -->
+        <view wx:elif="{{item.id === 'initial'}}" class="block-list-item-bd {{item.open ? 'show' : ''}}">
+          <view class="card-column">
+            <block wx:for="{{original}}" wx:for-item="row" wx:for-index="rowIndex" wx:key="{{rowIndex}}">
+              <view class="card-row">
+                <block wx:for="{{row}}" wx:for-index="colIndex" wx:key="{{colIndex}}">
+                  <block wx:if="{{ui.id === _uis.GRAPHICS}}">
+                    <!-- 卡片模式 -->
+                    <!-- 此处假设item仅仅是自然数，并非任意对象 -->
+                    <card width="40" background="{{colors[rowIndex][colIndex]}}" content="{{item}}" />
+                  </block>
+                  <block wx:else>
+                    <!-- 普通模式 -->
+                    <view class="normal-item" style="width: {{normalWidth}}rpx;">{{item}}</view>
+                  </block>
+                </block>
+              </view>
+            </block>
+          </view>
+        </view>
+
+        <!-- 非递归算法描述 -->
+        <view wx:elif="{{item.id === 'intro'}}" class="block-list-item-bd {{item.open ? 'show' : ''}}">
+          <view>
+            <text>关于公式法（又称非递归算法）计算的步骤和详细分析，参见“说明”页中给出的github地址。以下是结论：</text>
+          </view>
+          <view class="multi-line">
+            <image mode="aspectFit" src="http://latex.codecogs.com/gif.latex?P(1)=1" class="latex" />
+            <image mode="aspectFit" src="http://latex.codecogs.com/gif.latex?P(x+1)=4^k-P(x)+1,%5Cquad%5Ctextrm%7Bx%20is%20odd%7D" class="latex" />
+            <text>倘若x是偶数，那么情况要复杂得多。</text>
+            <text>首先，如果判定x位于一个“正规节”内，那么</text>
+            <image mode="aspectFit" src="http://latex.codecogs.com/gif.latex?P(x+1)=%5Cbegin%7Bcases%7D5%5Ctimes4^%7Bk-1%7D-P(x)+1,&%5Crm%7B2%5Ctimes4^%7Bk-1%7D+1%5Cle%20P(x)%5Cle3%5Ctimes4^%7Bk-1%7D%7D%5C%5C%5C%5C7%5Ctimes4^%7Bk-1%7D-P(x)+1,&%5Crm%7B3%5Ctimes4^%7Bk-1%7D+1%5Cle P(x)%5Cle4%5Ctimes4^%7Bk-1%7D%7D%5Cend%7Bcases%7D" class="latex large" />
+            <hr width="320px" />
+            <image mode="aspectFit" src="http://latex.codecogs.com/gif.latex?P(x+1)=%5Cbegin%7Bcases%7D5%5Ctimes4^%7Bk-2%7D-P(x)+1,&%5Crm%7B2%5Ctimes4^%7Bk-2%7D+1%5Cle%20P(x)%5Cle3%5Ctimes4^%7Bk-2%7D%7D%5C%5C%5C%5C7%5Ctimes4^%7Bk-2%7D-P(x)+1,&%5Crm%7B3%5Ctimes4^%7Bk-2%7D+1%5Cle%20P(x)%5Cle4%5Ctimes4^%7Bk-2%7D%7D%5C%5C%5C%5C9%5Ctimes4^%7Bk-2%7D-P(x)+1,&%5Crm%7B4%5Ctimes4^%7Bk-2%7D+1%5Cle%20P(x)%5Cle5%5Ctimes4^%7Bk-2%7D%7D%5C%5C%5C%5C11%5Ctimes4^%7Bk-2%7D-P(x)+1,&%5Crm%7B5%5Ctimes4^%7Bk-2%7D+1%5Cle%20P(x)%5Cle6%5Ctimes4^%7Bk-2%7D%7D%5Cend%7Bcases%7D" class="latex xx-large" />
+            <hr width="320px" />
+            <image mode="aspectFit" src="http://latex.codecogs.com/gif.latex?P(x+1)=%5Cbegin%7Bcases%7D5%5Ctimes4^%7Bk-3%7D-P(x)+1,&%5Crm%7B2%5Ctimes4^%7Bk-3%7D+1%5Cle%20P(x)%5Cle3%5Ctimes4^%7Bk-3%7D%7D%5C%5C%5C%5C7%5Ctimes4^%7Bk-3%7D-P(x)+1,&%5Crm%7B3%5Ctimes4^%7Bk-3%7D+1%5Cle%20P(x)%5Cle4%5Ctimes4^%7Bk-3%7D%7D%5C%5C%5C%5C9%5Ctimes4^%7Bk-3%7D-P(x)+1,&%5Crm%7B4%5Ctimes4^%7Bk-3%7D+1%5Cle%20P(x)%5Cle5%5Ctimes4^%7Bk-3%7D%7D%5C%5C%5C%5C11%5Ctimes4^%7Bk-3%7D-P(x)+1,&%5Crm%7B5%5Ctimes4^%7Bk-3%7D+1%5Cle%20P(x)%5Cle6%5Ctimes4^%7Bk-3%7D%7D%5Cend%7Bcases%7D" class="latex xx-large" />
+            <image mode="aspectFit" src="http://latex.codecogs.com/gif.latex?P(x+1)=%5Cbegin%7Bcases%7D53%5Ctimes4^%7Bk-3%7D-P(x)+1,&%5Crm%7B26%5Ctimes4^%7Bk-3%7D+1%5Cle%20P(x)%5Cle27%5Ctimes4^%7Bk-3%7D%7D%5C%5C%5C%5C55%5Ctimes4^%7Bk-3%7D-P(x)+1,&%5Crm%7B27%5Ctimes4^%7Bk-3%7D+1%5Cle%20P(x)%5Cle28%5Ctimes4^%7Bk-3%7D%7D%5C%5C%5C%5C57%5Ctimes4^%7Bk-3%7D-P(x)+1,&%5Crm%7B28%5Ctimes4^%7Bk-3%7D+1%5Cle%20P(x)%5Cle29%5Ctimes4^%7Bk-3%7D%7D%5C%5C%5C%5C59%5Ctimes4^%7Bk-3%7D-P(x)+1,&%5Crm%7B29%5Ctimes4^%7Bk-3%7D+1%5Cle%20P(x)%5Cle30%5Ctimes4^%7Bk-3%7D%7D%5Cend%7Bcases%7D" class="latex xx-large" />
+            <hr width="320px" />
+            <image mode="aspectFit" src="http://latex.codecogs.com/gif.latex?P(x+1)=%5Cbegin%7Bcases%7D5%5Ctimes4^%7Bk-4%7D-P(x)+1,&%5Crm%7B2%5Ctimes4^%7Bk-4%7D+1%5Cle%20P(x)%5Cle3%5Ctimes4^%7Bk-4%7D%7D%5C%5C%5C%5C7%5Ctimes4^%7Bk-4%7D-P(x)+1,&%5Crm%7B3%5Ctimes4^%7Bk-4%7D+1%5Cle%20P(x)%5Cle4%5Ctimes4^%7Bk-4%7D%7D%5C%5C%5C%5C9%5Ctimes4^%7Bk-4%7D-P(x)+1,&%5Crm%7B4%5Ctimes4^%7Bk-4%7D+1%5Cle%20P(x)%5Cle5%5Ctimes4^%7Bk-4%7D%7D%5C%5C%5C%5C11%5Ctimes4^%7Bk-4%7D-P(x)+1,&%5Crm%7B5%5Ctimes4^%7Bk-4%7D+1%5Cle%20P(x)%5Cle6%5Ctimes4^%7Bk-4%7D%7D%5Cend%7Bcases%7D" class="latex xx-large" />
+            <image mode="aspectFit" src="http://latex.codecogs.com/gif.latex?P(x+1)=%5Cbegin%7Bcases%7D53%5Ctimes4^%7Bk-4%7D-P(x)+1,&%5Crm%7B26%5Ctimes4^%7Bk-4%7D+1%5Cle%20P(x)%5Cle27%5Ctimes4^%7Bk-4%7D%7D%5C%5C%5C%5C55%5Ctimes4^%7Bk-4%7D-P(x)+1,&%5Crm%7B27%5Ctimes4^%7Bk-4%7D+1%5Cle%20P(x)%5Cle28%5Ctimes4^%7Bk-4%7D%7D%5C%5C%5C%5C57%5Ctimes4^%7Bk-4%7D-P(x)+1,&%5Crm%7B28%5Ctimes4^%7Bk-4%7D+1%5Cle%20P(x)%5Cle29%5Ctimes4^%7Bk-4%7D%7D%5C%5C%5C%5C59%5Ctimes4^%7Bk-4%7D-P(x)+1,&%5Crm%7B29%5Ctimes4^%7Bk-4%7D+1%5Cle%20P(x)%5Cle30%5Ctimes4^%7Bk-4%7D%7D%5Cend%7Bcases%7D" class="latex xx-large" />
+            <image mode="aspectFit" src="http://latex.codecogs.com/gif.latex?P(x+1)=%5Cbegin%7Bcases%7D197%5Ctimes4^%7Bk-4%7D-P(x)+1,&%5Crm%7B98%5Ctimes4^%7Bk-4%7D+1%5Cle%20P(x)%5Cle99%5Ctimes4^%7Bk-4%7D%7D%5C%5C%5C%5C199%5Ctimes4^%7Bk-4%7D-P(x)+1,&%5Crm%7B99%5Ctimes4^%7Bk-4%7D+1%5Cle%20P(x)%5Cle100%5Ctimes4^%7Bk-4%7D%7D%5C%5C%5C%5C201%5Ctimes4^%7Bk-4%7D-P(x)+1,&%5Crm%7B100%5Ctimes4^%7Bk-4%7D+1%5Cle%20P(x)%5Cle101%5Ctimes4^%7Bk-4%7D%7D%5C%5C%5C%5C203%5Ctimes4^%7Bk-4%7D-P(x)+1,&%5Crm%7B101%5Ctimes4^%7Bk-4%7D+1%5Cle%20P(x)%5Cle102%5Ctimes4^%7Bk-4%7D%7D%5Cend%7Bcases%7D" class="latex xx-large" />
+            <image mode="aspectFit" src="http://latex.codecogs.com/gif.latex?P(x+1)=%5Cbegin%7Bcases%7D245%5Ctimes4^%7Bk-4%7D-P(x)+1,&%5Crm%7B122%5Ctimes4^%7Bk-4%7D+1%5Cle%20P(x)%5Cle123%5Ctimes4^%7Bk-4%7D%7D%5C%5C%5C%5C247%5Ctimes4^%7Bk-4%7D-P(x)+1,&%5Crm%7B123%5Ctimes4^%7Bk-4%7D+1%5Cle%20P(x)%5Cle124%5Ctimes4^%7Bk-4%7D%7D%5C%5C%5C%5C249%5Ctimes4^%7Bk-4%7D-P(x)+1,&%5Crm%7B124%5Ctimes4^%7Bk-4%7D+1%5Cle%20P(x)%5Cle125%5Ctimes4^%7Bk-4%7D%7D%5C%5C%5C%5C251%5Ctimes4^%7Bk-4%7D-P(x)+1,&%5Crm%7B125%5Ctimes4^%7Bk-4%7D+1%5Cle%20P(x)%5Cle126%5Ctimes4^%7Bk-4%7D%7D%5Cend%7Bcases%7D" class="latex xx-large" />
+            <hr width="320px" />
+            <text>......</text>
+            <text>如果x位于一个“非正规节”内，那么需要用另外一种方法来计算它的后继奇数的位置，详情参考“说明”页中给出的github地址。</text>
+          </view>
+        </view>
+
+        <!-- 结果序列 -->
+        <view wx:elif="{{item.id === 'final'}}" class="block-list-item-bd {{item.open ? 'show' : ''}}">
+          <button bindtap="changeShape" class="action small" hover-class="hover" style="width: 180rpx;">转换成{{resultShape === 'square' ? '单行' : '方阵'}}</button>
+          <block wx:if="{{resultShape === 'square'}}">
+            <!-- 展示为方阵 -->
+            <view class="card-column">
+              <block wx:for="{{result}}" wx:for-item="row" wx:for-index="rowIndex" wx:key="{{rowIndex}}">
+                <view class="card-row">
+                  <block wx:for="{{row}}" wx:for-index="colIndex" wx:key="{{colIndex}}">
+                    <block wx:if="{{ui.id === _uis.GRAPHICS}}">
+                      <!-- 卡片模式 -->
+                      <!-- 此处假设item仅仅是自然数，并非任意对象 -->
+                      <card width="40" background="{{resultColors[rowIndex][colIndex]}}" content="{{item}}" />
+                    </block>
+                    <block wx:else>
+                      <!-- 普通模式 -->
+                      <view class="normal-item" style="width: {{normalWidth}}rpx;">{{item}}</view>
+                    </block>
+                  </block>
+                </view>
+              </block>
+            </view>
+          </block>
+          <block wx:else>
+            <!-- 展示为单行 -->
+            <!-- 卡片模式 -->
+            <view wx:if="{{ui.id === _uis.GRAPHICS}}" class="card-row">
+              <block wx:for="{{resultFlat}}" wx:key="{{index}}">
+                <!-- 此处假设item仅仅是自然数，并非任意对象 -->
+                <card width="40" background="{{flatColors[item - 1]}}" content="{{item}}" />
+              </block>
+            </view>
+            <!-- 普通模式 -->
+            <view wx:else class="normal-row">{{resultFlat}}</view>
+          </block>
+        </view>
+
+        <!-- 探索 -->
+        <view wx:elif="{{item.id === 'explore'}}" class="block-list-item-bd {{item.open ? 'show' : ''}}">
+          <view class="multi-line">
+            <view>
+              <text>数字</text><number inline="true" min="1" max="{{count}}" value="{{number}}" bindinput="changeNumber" /><text>在第</text><text class="computed" style="color: red;">{{positionOf}}</text><text>位。</text>
+            </view>
+            <view class="single-line">
+              <text>第</text><number inline="true" min="1" max="{{count}}" value="{{position}}" bindinput="changePosition" /><text>位上的数字是</text><text class="computed" style="color: blue;">{{valueOf}}</text><text>。</text>
+            </view>
+          </view>
+        </view>
+
+
+      </view>
+    </block>
+  </view>
+</view>

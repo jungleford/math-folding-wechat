@@ -1,0 +1,2 @@
+<!--components/hr/hr.wxml-->
+<view class="hr" style="width: {{width}}; height: {{size}}; background-color: {{color}};" />

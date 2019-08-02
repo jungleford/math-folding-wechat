@@ -64,6 +64,7 @@
           <!-- 卡片模式 -->
           <view wx:if="{{ui.id === _uis.GRAPHICS}}" class="card-row">
             <block wx:for="{{original}}" wx:key="{{index}}">
+              <!-- 此处假设item仅仅是自然数，并非任意对象 -->
               <card width="40" background="{{colors[index]}}" content="{{item}}" />
             </block>
           </view>
@@ -75,10 +76,10 @@
         <!-- 非递归算法描述 -->
         <view wx:elif="{{item.id === 'intro'}}" class="block-list-item-bd {{item.open ? 'show' : ''}}">
           <view class="multi-line">
-            <image class="latex" mode="aspectFit" src="http://latex.codecogs.com/gif.latex?P(1)=1" />
-            <image class="latex" mode="aspectFit" src="http://latex.codecogs.com/gif.latex?P(2)=n=2^k" />
-            <image class="latex large" mode="aspectFit" src="http://latex.codecogs.com/gif.latex?P_k(x)=%5Cbegin%7Bcases%7D2P_{k-1}(x),&%5Ctextrm%7Bx is even%7D%5C%5C2P_%7Bk-1%7D(x)-1,&%5Ctextrm%7Bx is odd%7D%5Cend%7Bcases%7D,%5Cquad1<x%5Cle2^%7Bk-1%7D" />
-            <image class="latex large" mode="aspectFit" src="http://latex.codecogs.com/gif.latex?P_k(2^k-x+1)=%5Cbegin%7Bcases%7DP_k(x)-1,&%5Ctextrm%7Bx is even%7D%5C%5CP_k(x)+1,&%5Ctextrm%7Bx is odd%7D%5Cend%7Bcases%7D,%5Cquad1<x%5Cle2^%7Bk-1%7D" />
+            <image mode="aspectFit" src="http://latex.codecogs.com/gif.latex?P(1)=1" class="latex" />
+            <image mode="aspectFit" src="http://latex.codecogs.com/gif.latex?P(2)=n=2^k" class="latex" />
+            <image mode="aspectFit" src="http://latex.codecogs.com/gif.latex?P_k(x)=%5Cbegin%7Bcases%7D2P_{k-1}(x),&%5Ctextrm%7Bx is even%7D%5C%5C2P_%7Bk-1%7D(x)-1,&%5Ctextrm%7Bx is odd%7D%5Cend%7Bcases%7D,%5Cquad1<x%5Cle2^%7Bk-1%7D" class="latex large" />
+            <image mode="aspectFit" src="http://latex.codecogs.com/gif.latex?P_k(2^k-x+1)=%5Cbegin%7Bcases%7DP_k(x)-1,&%5Ctextrm%7Bx is even%7D%5C%5CP_k(x)+1,&%5Ctextrm%7Bx is odd%7D%5Cend%7Bcases%7D,%5Cquad1<x%5Cle2^%7Bk-1%7D" class="latex large" />
             <text>可以将位置函数P(x)替换成求值函数V(x)，得到的公式将仍然保持不变！此为一阶对折的对称性。</text>
           </view>
         </view>
@@ -88,7 +89,8 @@
           <!-- 卡片模式 -->
           <view wx:if="{{ui.id === _uis.GRAPHICS}}" class="card-row">
             <block wx:for="{{result}}" wx:key="{{index}}">
-              <card width="40" background="{{colors[result[index] - 1]}}" content="{{item}}" />
+              <!-- 此处假设item仅仅是自然数，并非任意对象 -->
+              <card width="40" background="{{colors[item - 1]}}" content="{{item}}" />
             </block>
           </view>
 

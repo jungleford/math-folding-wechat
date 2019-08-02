@@ -111,8 +111,8 @@ Page({
    * 展开/收起一个区块
    */
   toggleBlock: function (e) {
-    let id = e.currentTarget.id
     let list = this.data.list;
+    let id = e.currentTarget.id
 
     _.each(list, item => {
       if (item.id === id) {
@@ -130,8 +130,8 @@ Page({
    * 切换算法
    */
   changeAlgorithm: function (e) {
-    let value = e.detail.value;
     let list = this.data.list;
+    let value = e.detail.value;
     let algorithm = this.data.algorithms[value];
     let introOpen = algorithm.id === this.data._algorithms.FORMULA;
     let resetOriginal = service.init(true);
@@ -187,12 +187,12 @@ Page({
    * 设定k值
    */
   changePower: function (e) {
+    let list = this.data.list;
     let newPower = parseInt(e.detail.value) + 1;
     service = new Folding(newPower); // 更新service
     let resetOriginal = service.init();
     let count = service.getCount();
     serviceReverse = null;
-    let list = this.data.list;
 
     _.each(list, item => {
       if (item.id === 'final' || item.id === 'explore' || item.id === 'steps' || item.id === 'reverse') {
@@ -235,8 +235,8 @@ Page({
       return;
     }
 
-    let alg = this.data.algorithm.id;
     let list = this.data.list;
+    let alg = this.data.algorithm.id;
     let result = service.compute(alg);
     serviceReverse = new Folding(this.data.power, result);
     serviceReverse.compute(alg);

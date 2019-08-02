@@ -53,6 +53,14 @@ button.small {
   height: 108rpx;
 }
 
+.latex.x-large {
+  height: 180rpx;
+}
+
+.latex.xx-large {
+  height: 288rpx;
+}
+
 .single-line {
   display: inline-block;
 }
@@ -141,6 +149,16 @@ button.small {
 
 .normal-row {
   padding-top: 20rpx;
+}
+
+.normal-item {
+  text-align: center;
+  margin: 8rpx;
+}
+
+.card-column {
+  display: flex;
+  flex-direction: column;
 }
 
 .card-row {

@@ -1,0 +1,7 @@
+/* components/hr/hr.wxss */
+.hr {
+  /*margin: 0 auto;*/
+  width: 100%;
+  height: 2rpx;
+  background-color: #D8D8D8;
+}
