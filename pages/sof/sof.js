@@ -31,7 +31,6 @@ let service = defaultService;
    for SOF k=2, there are 3 rounds back to the initial matrix.
    for SOF k=3, there are 27 rounds back to the initial matrix. */
 let countReverse = [2, 3, 27];
-let servicesReverse = [];
 
 function getResultColors(colors, result) {
   let colorSet = _.reduce(colors, (accumulator, row) => accumulator.concat(row)); // colors of original matrix
@@ -121,7 +120,8 @@ Page({
     valueOf: 1,
     positionOf: 1,
 
-    activeStepContent: [] // 三维数组
+    stepsContent: [], // 四维数组
+    stepsContentReverse: [] // 三维数组
   },
 
   /**
@@ -152,7 +152,6 @@ Page({
     let algorithm = this.data.algorithms[value];
     let introOpen = algorithm.id === this.data._algorithms.FORMULA;
     let resetOriginal = service.init(true);
-    servicesReverse = [];
 
     _.each(list, item => {
       if (item.id === 'final' || item.id === 'explore' || item.id === 'steps' || item.id === 'reverse') {
@@ -183,7 +182,8 @@ Page({
       valueOf: 1,
       positionOf: 1,
 
-      activeStepContent: []
+      stepsContent: [],
+      stepsContentReverse: []
     });
 
     console.debug('当前算法：' + this.data.algorithm.id);
@@ -210,7 +210,6 @@ Page({
     let newPower = parseInt(e.detail.value) + 1;
     service = new Folding(newPower); // 更新service
     let resetOriginal = service.init();
-    servicesReverse = [];
 
     _.each(list, item => {
       if (item.id === 'final' || item.id === 'explore' || item.id === 'steps' || item.id === 'reverse') {
@@ -223,7 +222,7 @@ Page({
     });
 
     let colors = utils.generateGradualColorMatrix(service.getRowCount());
-    let flatColors = util.matrixToArray(colors);
+    let flatColors = utils.matrixToArray(colors);
 
     this.setData({
       list: list,
@@ -249,7 +248,8 @@ Page({
       valueOf: 1,
       positionOf: 1,
 
-      activeStepContent: []
+      stepsContent: [],
+      stepsContentReverse: []
     });
     console.debug('当前幂次：' + this.data.power);
   },
@@ -268,10 +268,11 @@ Page({
     let resultFlat = service.compute(alg)[0];
     let result = utils.arrayToMatrix(resultFlat);
 
-    if (servicesReverse.length === 0) {
+    let stepsContentReverse = [];
+    if (this.data.stepsContentReverse.length === 0) {
       for (let i = 0, count = countReverse[power - 1], svc = service; i <= count; i++) {
         svc = new Folding(power, svc.compute(alg)[0], true);
-        servicesReverse.push(svc); // servicesReverse contains all SOF services of each step
+        stepsContentReverse.push(svc.init());
       }
     }
 
@@ -300,7 +301,8 @@ Page({
 
       done: true,
 
-      activeStepContent: alg === serviceConstants.algorithm.RECURSIVE ? service.getSteps() : []
+      stepsContent: alg === serviceConstants.algorithm.RECURSIVE ? service.getSteps() : [],
+      stepsContentReverse: stepsContentReverse
     });
   },
 
@@ -309,7 +311,6 @@ Page({
    */
   reset: function (e) {
     let list = this.data.list;
-    servicesReverse = [];
 
     _.each(list, item => {
       if (item.id === 'final' || item.id === 'explore' || item.id === 'steps' || item.id === 'reverse') {
@@ -330,7 +331,8 @@ Page({
 
       done: false,
 
-      activeStepContent: []
+      stepsContent: [],
+      stepsContentReverse: []
     });
   },
 

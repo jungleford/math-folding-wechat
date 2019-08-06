@@ -103,8 +103,8 @@ Page({
     valueOf: 1,
     positionOf: 1,
 
-    activeStepContent: [], // 三维数组
-    activeStepContentReverse: [] // 三维数组
+    stepsContent: [], // 三维数组
+    stepsContentReverse: [] // 三维数组
   },
 
   /**
@@ -163,8 +163,8 @@ Page({
       valueOf: 1,
       positionOf: 1,
 
-      activeStepContent: [],
-      activeStepContentReverse: []
+      stepsContent: [],
+      stepsContentReverse: []
     });
 
     console.debug('当前算法：' + this.data.algorithm.id);
@@ -221,8 +221,8 @@ Page({
       valueOf: 1,
       positionOf: 1,
 
-      activeStepContent: [],
-      activeStepContentReverse: []
+      stepsContent: [],
+      stepsContentReverse: []
     });
     console.debug('当前幂次：' + this.data.power);
   },
@@ -262,8 +262,8 @@ Page({
 
       done: true,
 
-      activeStepContent: alg === serviceConstants.algorithm.RECURSIVE ? service.getSteps() : [],
-      activeStepContentReverse: alg === serviceConstants.algorithm.RECURSIVE ? serviceReverse.getSteps() : []
+      stepsContent: alg === serviceConstants.algorithm.RECURSIVE ? service.getSteps() : [],
+      stepsContentReverse: alg === serviceConstants.algorithm.RECURSIVE ? serviceReverse.getSteps() : []
     });
   },
 
@@ -290,8 +290,8 @@ Page({
 
       done: false,
 
-      activeStepContent: [],
-      activeStepContentReverse: []
+      stepsContent: [],
+      stepsContentReverse: []
     });
   },
 

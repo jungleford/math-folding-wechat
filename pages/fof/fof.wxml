@@ -120,11 +120,11 @@
         <view wx:elif="{{item.id === 'steps'}}" class="block-list-item-bd {{item.open ? 'show' : ''}}">
           <view class="multi-line">
             <view class="single-line"><text>此处展示整个对折过程（共</text><text class="computed">{{power}}</text><text>步）</text></view>
-            <block wx:for="{{activeStepContent}}" wx:for-index="stepIndex" wx:for-item="step" wx:key="{{stepIndex}}">
+            <block wx:for="{{stepsContent}}" wx:for-item="step" wx:for-index="stepIndex" wx:key="{{stepIndex}}">
               <view class="multi-line" style="margin-top: 10px;">
                 <text style="font-weight: bold;">{{stepIndex > 0 ? '第' + stepIndex + '步' : '初始序列'}}</text>
                 <view class="step">
-                  <block wx:for="{{step}}" wx:for-index="pileIndex" wx:for-item="pile" wx:key="{{pileIndex}}">
+                  <block wx:for="{{step}}" wx:for-item="pile" wx:for-index="pileIndex" wx:key="{{pileIndex}}">
                     <!-- 卡片模式 -->
                     <view wx:if="{{ui.id === _uis.GRAPHICS}}" class="pile">
                       <block wx:for="{{pile}}" wx:key="{{index}}">
@@ -149,11 +149,11 @@
         <view wx:elif="{{item.id === 'reverse'}}" class="block-list-item-bd {{item.open ? 'show' : ''}}">
           <view class="multi-line">
             <text>如果把对折得到的最终结果序列再次按照同样方式进行对折，你猜结果会是什么？</text>
-            <block wx:for="{{activeStepContentReverse}}" wx:for-index="stepIndex" wx:for-item="step" wx:key="{{stepIndex}}">
+            <block wx:for="{{stepsContentReverse}}" wx:for-item="step" wx:for-index="stepIndex" wx:key="{{stepIndex}}">
               <view class="multi-line" style="margin-top: 10px;">
                 <text style="font-weight: bold;">{{stepIndex > 0 ? '第' + stepIndex + '步' : '结果序列'}}</text>
                 <view class="step">
-                  <block wx:for="{{step}}" wx:for-index="pileIndex" wx:for-item="pile" wx:key="{{pileIndex}}">
+                  <block wx:for="{{step}}" wx:for-item="pile" wx:for-index="pileIndex" wx:key="{{pileIndex}}">
                     <!-- 卡片模式 -->
                     <view wx:if="{{ui.id === _uis.GRAPHICS}}" class="pile">
                       <block wx:for="{{pile}}" wx:key="{{index}}">
@@ -171,7 +171,7 @@
                 </view>
               </view>
             </block>
-            <text style="margin-top: 10px;">神奇吧？最后你会得到初始序列！</text>
+            <text class="small-label">神奇吧？最后你会得到初始序列！</text>
             <view class="single-line"><text>这就是一阶对折的</text><text class="computed" style="color: red;">对称性</text><text>！</text></view>
           </view>
         </view>

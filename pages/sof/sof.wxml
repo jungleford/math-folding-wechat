@@ -1,5 +1,5 @@
 <!--pages/sof/sof.wxml-->
-<!--pages/fof/fof.wxml-->
+<wxs module="util" src="../../utils/utilTpl.wxs"></wxs>
 <view class="container container-no-padding">
   <!-- 标题 -->
   <text class="title">二阶对折</text>
@@ -9,7 +9,7 @@
       <view wx:if="{{item.visible}}" class="block-list-item">
 
         <!-- 小标题 -->
-        <view id="{{item.id}}" bindtap="toggleBlock" class="block-list-item-hd {{item.open ? 'show' : ''}}">
+        <view wx:if="{{item.id !== 'reverse' || power <= 3}}" id="{{item.id}}" bindtap="toggleBlock" class="block-list-item-hd {{item.open ? 'show' : ''}}">
           <view class="block-list-item-arrow {{item.open ? 'block-list-item-arrow-down' : ''}}"></view>
           <text class="subtitle">{{item.name}}</text>
         </view>
@@ -66,13 +66,14 @@
             <block wx:for="{{original}}" wx:for-item="row" wx:for-index="rowIndex" wx:key="{{rowIndex}}">
               <view class="card-row">
                 <block wx:for="{{row}}" wx:for-index="colIndex" wx:key="{{colIndex}}">
+                  <!-- 卡片模式 -->
                   <block wx:if="{{ui.id === _uis.GRAPHICS}}">
-                    <!-- 卡片模式 -->
                     <!-- 此处假设item仅仅是自然数，并非任意对象 -->
-                    <card width="40" background="{{colors[rowIndex][colIndex]}}" content="{{item}}" />
+                    <card width="{{power > 3 ? 80 : 40}}" background="{{colors[rowIndex][colIndex]}}" content="{{item}}" />
                   </block>
+
+                  <!-- 普通模式 -->
                   <block wx:else>
-                    <!-- 普通模式 -->
                     <view class="normal-item" style="width: {{normalWidth}}rpx;">{{item}}</view>
                   </block>
                 </block>
@@ -111,19 +112,20 @@
         <!-- 结果序列 -->
         <view wx:elif="{{item.id === 'final'}}" class="block-list-item-bd {{item.open ? 'show' : ''}}">
           <button bindtap="changeShape" class="action small" hover-class="hover" style="width: 180rpx;">转换成{{resultShape === 'square' ? '单行' : '方阵'}}</button>
+          <!-- 展示为方阵 -->
           <block wx:if="{{resultShape === 'square'}}">
-            <!-- 展示为方阵 -->
             <view class="card-column">
               <block wx:for="{{result}}" wx:for-item="row" wx:for-index="rowIndex" wx:key="{{rowIndex}}">
                 <view class="card-row">
                   <block wx:for="{{row}}" wx:for-index="colIndex" wx:key="{{colIndex}}">
+                    <!-- 卡片模式 -->
                     <block wx:if="{{ui.id === _uis.GRAPHICS}}">
-                      <!-- 卡片模式 -->
                       <!-- 此处假设item仅仅是自然数，并非任意对象 -->
-                      <card width="40" background="{{resultColors[rowIndex][colIndex]}}" content="{{item}}" />
+                      <card width="{{power > 3 ? 80 : 40}}" background="{{resultColors[rowIndex][colIndex]}}" content="{{item}}" />
                     </block>
+
+                    <!-- 普通模式 -->
                     <block wx:else>
-                      <!-- 普通模式 -->
                       <view class="normal-item" style="width: {{normalWidth}}rpx;">{{item}}</view>
                     </block>
                   </block>
@@ -131,13 +133,14 @@
               </block>
             </view>
           </block>
+
+          <!-- 展示为单行 -->
           <block wx:else>
-            <!-- 展示为单行 -->
             <!-- 卡片模式 -->
             <view wx:if="{{ui.id === _uis.GRAPHICS}}" class="card-row">
               <block wx:for="{{resultFlat}}" wx:key="{{index}}">
                 <!-- 此处假设item仅仅是自然数，并非任意对象 -->
-                <card width="40" background="{{flatColors[item - 1]}}" content="{{item}}" />
+                <card width="{{power > 3 ? 80 : 40}}" background="{{flatColors[item - 1]}}" content="{{item}}" />
               </block>
             </view>
             <!-- 普通模式 -->
@@ -157,8 +160,86 @@
           </view>
         </view>
 
+        <!-- 步骤重现 -->
+        <view wx:elif="{{item.id === 'steps'}}" class="block-list-item-bd {{item.open ? 'show' : ''}}">
+          <view class="multi-line">
+            <view class="single-line"><text>此处展示整个对折过程（共</text><text class="computed">{{power}}</text><text>轮，</text><text class="computed">{{power * 2}}</text><text>步）</text></view>
+            <block wx:for="{{stepsContent}}" wx:for-item="step" wx:for-index="stepIndex" wx:key="{{stepIndex}}">
+              <view class="multi-line" style="margin-top: 10px;">
+                <text style="font-weight: bold;">{{stepIndex > 0 ? '第' + util.ceil(stepIndex / 2) + '轮，' + '第' + stepIndex + '步' : '初始方阵'}}</text>
+                <view class="step">
+                  <view class="card-column">
+                    <block wx:for="{{step}}" wx:for-item="row" wx:for-index="rowIndex" wx:key="{{rowIndex}}">
+                      <view class="card-row">
+                        <block wx:for="{{row}}" wx:for-item="pile" wx:for-index="colIndex" wx:key="{{colIndex}}">
+                          <!-- 卡片模式 -->
+                          <view wx:if="{{ui.id === _uis.GRAPHICS}}" class="pile" style="width: {{power > 3 ? '100rpx' : '60rpx'}}">
+                            <block wx:for="{{pile}}" wx:key="{{index}}">
+                              <!-- 此处假设item仅仅是自然数，并非任意对象 -->
+                              <card width="{{power > 3 ? 80 : 40}}" background="{{flatColors[item - 1]}}" content="{{item}}" />
+                            </block>
+                          </view>
+
+                          <!-- 普通模式 -->
+                          <view wx:else class="pile" style="width: 20px;">
+                            <block wx:for="{{pile}}" wx:key="{{index}}">
+                              <span>{{item}}</span>
+                            </block>
+                          </view>
+                        </block>
+                      </view>
+                    </block>
+                  </view>
+                </view>
+              </view>
+            </block>
+          </view>
+        </view>
+
+        <!-- 反向折叠 -->
+        <view wx:elif="{{item.id === 'reverse' && power <= 3}}" class="block-list-item-bd {{item.open ? 'show' : ''}}">
+          <view class="multi-line">
+            <text class="small-label">（注意：仅当幂次不超过3时显示反向折叠序列。高于3次的反向序列可能因为过多而难以在手机端显示）</text>
+            <text class="small-label">如果把对折得到的最终序列转换成方阵形式，然后再次按照同样方式进行对折，你猜结果会是什么？</text>
+            <block wx:for="{{stepsContentReverse}}" wx:for-item="step" wx:for-index="stepIndex" wx:key="{{stepIndex}}">
+              <view class="multi-line" style="margin-top: 10px;">
+                <text style="font-weight: bold;">{{stepIndex > 0 ? '第' + stepIndex + '局' : '结果方阵'}}</text>
+                <view class="card-column">
+                  <block wx:for="{{step}}" wx:for-item="row" wx:for-index="rowIndex" wx:key="{{rowIndex}}">
+                    <view class="card-row">
+                      <block wx:for="{{row}}" wx:for-index="colIndex" wx:key="{{colIndex}}">
+                        <!-- 卡片模式 -->
+                        <block wx:if="{{ui.id === _uis.GRAPHICS}}">
+                          <!-- 此处假设item仅仅是自然数，并非任意对象 -->
+                          <card width="40" background="{{flatColors[item - 1]}}" content="{{item}}" />
+                        </block>
+
+                        <!-- 普通模式 -->
+                        <block wx:else>
+                          <view class="normal-item" style="width: {{normalWidth}}rpx;">{{item}}</view>
+                        </block>
+                      </block>
+                    </view>
+                  </block>
+                </view>
+              </view>
+            </block>
+            <view class="single-line"><text>神奇吧？经过</text><text class="computed" style="color: red;">{{stepsContentReverse.length - 1}}</text><text>局的反复对折，最后你会回到初始方阵！</text></view>
+            <view class="single-line"><text>这就是二阶对折的</text><text class="computed" style="color: red;">对称性</text><text>！</text></view>
+          </view>
+        </view>
 
       </view>
     </block>
   </view>
 </view>
+<!--
+<dialog id='dialog' 
+  title='开始折叠？' 
+  content='在递归算法下，幂次超过4的对折过程可能会有一些延迟，继续吗？' 
+  cancelText='取消' 
+  confirmText='继续'
+  bind:cancelEvent="dialogCancel"  
+  bind:confirmEvent="dialogConfirm">
+</dialog>
+-->
