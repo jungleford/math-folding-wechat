@@ -310,7 +310,24 @@ Page({
     if (this.data.algorithm.id === 'formula' || this.data.power < 5) {
       this._doFolding(e);
     } else {
-      this.dialog.showDialog();
+      //this.dialog.showDialog();
+
+      /* 使用官方API弹窗 */
+      let me = this;
+      wx.showModal({
+        mask: true,
+        title: '开始折叠？',
+        content: '在递归算法下，幂次超过4的对折过程可能会有一些延迟，继续吗？',
+        confirmText: '继续',
+        confirmColor: '#2B7CE9',
+        success: function (res) {
+          if (res.confirm) {
+            wx.showLoading({ title: '正在折叠...' });
+            me._doFolding(e);
+            setTimeout(() => { wx.hideLoading(); });
+          }
+        }
+      });
     }
   },
 
@@ -367,7 +384,7 @@ Page({
       this.setData({ valueOf: service.valueOf(newPos) });
     }
   },
-
+/*
   dialogCancel: function (e) {
     this.dialog.hideDialog();
   },
@@ -376,7 +393,7 @@ Page({
     this.dialog.hideDialog();
     this._doFolding(e);
   },
-
+*/
   /**
    * 生命周期函数--监听页面加载
    */
@@ -386,7 +403,7 @@ Page({
    * 生命周期函数--监听页面初次渲染完成
    */
   onReady: function () {
-    this.dialog = this.selectComponent("#dialog");
+    //this.dialog = this.selectComponent("#dialog");
   },
 
   /**

@@ -173,7 +173,7 @@
                       <view class="card-row">
                         <block wx:for="{{row}}" wx:for-item="pile" wx:for-index="colIndex" wx:key="{{colIndex}}">
                           <!-- 卡片模式 -->
-                          <view wx:if="{{ui.id === _uis.GRAPHICS}}" class="pile" style="width: {{power > 3 ? '100rpx' : '60rpx'}}">
+                          <view wx:if="{{ui.id === _uis.GRAPHICS}}" class="pile" style="width: {{power > 3 ? '100' : '60'}}rpx;">
                             <block wx:for="{{pile}}" wx:key="{{index}}">
                               <!-- 此处假设item仅仅是自然数，并非任意对象 -->
                               <card width="{{power > 3 ? 80 : 40}}" background="{{flatColors[item - 1]}}" content="{{item}}" />
@@ -181,9 +181,9 @@
                           </view>
 
                           <!-- 普通模式 -->
-                          <view wx:else class="pile" style="width: 20px;">
+                          <view wx:else class="pile" style="width: {{power > 3 ? '80' : '40'}}rpx;">
                             <block wx:for="{{pile}}" wx:key="{{index}}">
-                              <span>{{item}}</span>
+                              <view class="normal-item" style="width: {{normalWidth}}rpx;">{{item}}</view>
                             </block>
                           </view>
                         </block>
@@ -233,6 +233,7 @@
     </block>
   </view>
 </view>
+<!--
 <dialog id='dialog' 
   title='开始折叠？' 
   content='在递归算法下，幂次超过4的对折过程可能会有一些延迟，继续吗？' 
@@ -241,3 +242,4 @@
   bind:cancelEvent="dialogCancel"  
   bind:confirmEvent="dialogConfirm">
 </dialog>
+-->
