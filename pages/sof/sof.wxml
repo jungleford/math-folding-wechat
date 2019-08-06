@@ -121,7 +121,7 @@
                     <!-- 卡片模式 -->
                     <block wx:if="{{ui.id === _uis.GRAPHICS}}">
                       <!-- 此处假设item仅仅是自然数，并非任意对象 -->
-                      <card width="{{power > 3 ? 80 : 40}}" background="{{resultColors[rowIndex][colIndex]}}" content="{{item}}" />
+                      <card width="{{power > 3 ? 80 : 40}}" background="{{flatColors[item - 1]}}" content="{{item}}" />
                     </block>
 
                     <!-- 普通模式 -->
@@ -233,7 +233,6 @@
     </block>
   </view>
 </view>
-<!--
 <dialog id='dialog' 
   title='开始折叠？' 
   content='在递归算法下，幂次超过4的对折过程可能会有一些延迟，继续吗？' 
@@ -242,4 +241,3 @@
   bind:cancelEvent="dialogCancel"  
   bind:confirmEvent="dialogConfirm">
 </dialog>
--->

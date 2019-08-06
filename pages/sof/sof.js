@@ -254,18 +254,11 @@ Page({
     console.debug('当前幂次：' + this.data.power);
   },
 
-  /**
-   * 开始折叠
-   */
-  doFolding: function (e) {
-    if (this.data.done) {
-      return;
-    }
-
+  _doFolding: function (e, callback) {
     let list = this.data.list;
     let alg = this.data.algorithm.id;
     let power = this.data.power;
-    let resultFlat = service.compute(alg)[0];
+    let resultFlat = service.compute(alg, callback)[0];
     let result = utils.arrayToMatrix(resultFlat);
 
     let stepsContentReverse = [];
@@ -304,6 +297,21 @@ Page({
       stepsContent: alg === serviceConstants.algorithm.RECURSIVE ? service.getSteps() : [],
       stepsContentReverse: stepsContentReverse
     });
+  },
+
+  /**
+   * 开始折叠
+   */
+  doFolding: function (e) {
+    if (this.data.done) {
+      return;
+    }
+
+    if (this.data.algorithm.id === 'formula' || this.data.power < 5) {
+      this._doFolding(e);
+    } else {
+      this.dialog.showDialog();
+    }
   },
 
   /**
@@ -360,6 +368,15 @@ Page({
     }
   },
 
+  dialogCancel: function (e) {
+    this.dialog.hideDialog();
+  },
+
+  dialogConfirm: function (e) {
+    this.dialog.hideDialog();
+    this._doFolding(e);
+  },
+
   /**
    * 生命周期函数--监听页面加载
    */
@@ -368,7 +385,9 @@ Page({
   /**
    * 生命周期函数--监听页面初次渲染完成
    */
-  onReady: function () {},
+  onReady: function () {
+    this.dialog = this.selectComponent("#dialog");
+  },
 
   /**
    * 生命周期函数--监听页面显示

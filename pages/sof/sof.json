@@ -2,6 +2,7 @@
   "usingComponents": {
     "card": "../../components/card/card",
     "number": "../../components/number/number",
-    "hr": "../../components/hr/hr"
+    "hr": "../../components/hr/hr",
+    "dialog": "../../components/dialog/dialog"
   }
 }

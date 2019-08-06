@@ -1,0 +1,13 @@
+<!--components/dialog/dialog.wxml-->
+<!-- Refer to https://www.jianshu.com/p/8a2a730d9e60 -->
+<view class='container' hidden="{{!show}}">
+  <view class='mask'></view>
+  <view class='dialog'>
+    <view class='title'>{{ title }}</view>
+    <view class='content'>{{ content }}</view>
+    <view class='footer'>
+      <view class='button' catchtap='cancel'>{{ cancelText }}</view>
+      <view class='button' catchtap='confirm'>{{ confirmText }}</view>
+    </view>
+  </view>
+</view>
