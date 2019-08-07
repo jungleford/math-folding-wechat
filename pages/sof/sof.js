@@ -121,7 +121,31 @@ Page({
     positionOf: 1,
 
     stepsContent: [], // 四维数组
-    stepsContentReverse: [] // 三维数组
+    stepsContentReverse: [], // 三维数组
+
+    showGoto: false,
+    gotoWhere: ''
+  },
+
+  // 非delegate模式，防止组件接管tap事件直接跳到顶部
+  goto: function (where) {
+    wx.pageScrollTo({ selector: this.data.gotoWhere });
+  },
+
+  /*
+   * 内部方法：显示/隐藏“返回”按钮
+   */
+  toggleGoto: function (id, open) {
+    let alg = this.data.algorithm.id;
+    let power = this.data.power;
+    let resultShape = this.data.resultShape;
+    if (id === 'steps' || id === 'reverse' || id === 'intro' && alg === serviceConstants.algorithm.FORMULA ||
+        id === 'initial' && power > 3 || id === 'final' && power > 3 && resultShape === 'square') {
+      this.setData({
+        showGoto: open,
+        gotoWhere: open ? '#' + id : ''
+      });
+    }
   },
 
   /**
@@ -134,6 +158,7 @@ Page({
     _.each(list, item => {
       if (item.id === id) {
         item.open = !item.open;
+        this.toggleGoto(id, item.open);
       } else {
         //item.open = false; // 手风琴模式
       }

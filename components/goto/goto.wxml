@@ -1,0 +1,6 @@
+<!-- https://segmentfault.com/q/1010000009512609 -->
+<view wx:if="{{show}}" bindtap="goto" class="floating-button">
+  <view class="floating-button-inner">
+    <view class="triangle-up small"></view> <view>{{text}}</view>
+  </view>
+</view>

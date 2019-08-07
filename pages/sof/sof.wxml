@@ -52,11 +52,14 @@
             </picker-view-column>
           </picker-view>
           <view>
-            <text class="small-label">（总共</text><text class="computed">{{count}}</text><text class="small-label">个数字或元素）</text>
+            <text class="small-label">总共</text><text class="computed">{{count}}</text><text class="small-label">个数字或元素</text>
           </view>
           <view class="button-group">
             <button id="fold" bindtap="doFolding" disabled="{{done}}" class="action small" hover-class="hover">开始折叠</button>
             <button id="reset" bindtap="reset" class="small" hover-class="hover">重 置</button>
+          </view>
+          <view>
+            <text class="small-label">小提示：递归算法下幂次越高响应速度越慢，需要等待几秒钟。如果一个展示结果太长，请先点击小标题收起/展开一下该部分，在右下角会出现返回按钮。</text>
           </view>
         </view>
 
@@ -243,3 +246,4 @@
   bind:confirmEvent="dialogConfirm">
 </dialog>
 -->
+<goto show="{{showGoto}}" where="{{gotoWhere}}" delegate="{{false}}" bindtap="goto" />

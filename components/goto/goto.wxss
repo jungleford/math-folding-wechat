@@ -1,0 +1,33 @@
+/* https://segmentfault.com/q/1010000009512609 */
+@import "../common/shape.wxss";
+
+.floating-button { 
+  position: fixed; 
+  bottom: 50px; 
+  right: 5px; 
+  background: rgba(0,0,0,0.48); 
+  border-radius: 50%; 
+  overflow: hidden; 
+  z-index: 500; 
+} 
+
+.floating-button .floating-button-inner { 
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  width: 50px; 
+  height: 50px; 
+  font-size: 12px; 
+  color: #fff; 
+  border-radius: 50%; 
+  background-color: rgba(0,0,0,0.8); 
+  -webkit-background-size: 50px auto; 
+}
+
+.triangle-up.small {
+  border-left-width: 10px;
+  border-right-width: 10px;
+  border-bottom-width: 20px;
+  border-bottom-color: #FF8C00;
+}

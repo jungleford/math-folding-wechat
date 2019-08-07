@@ -1,6 +1,7 @@
 {
   "usingComponents": {
     "card": "../../components/card/card",
-    "number": "../../components/number/number"
+    "number": "../../components/number/number",
+    "goto": "../../components/goto/goto"
   }
 }
