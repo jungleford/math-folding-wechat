@@ -58,8 +58,8 @@
             <button id="fold" bindtap="doFolding" disabled="{{done}}" class="action small" hover-class="hover">开始折叠</button>
             <button id="reset" bindtap="reset" class="small" hover-class="hover">重 置</button>
           </view>
-          <view>
-            <text class="small-label">小提示：递归算法下幂次越高响应速度越慢，需要等待几秒钟。如果一个展示结果太长，请先点击小标题收起/展开一下该部分，在右下角会出现返回按钮。</text>
+          <view class="multi-line">
+            <text class="small-label hint">小提示：递归算法下幂次越高响应速度越慢，需要等待几秒钟。如果一个展示结果太长，请先点击小标题收起/展开一下该部分，在右下角会出现返回按钮。</text>
           </view>
         </view>
 
@@ -114,7 +114,7 @@
 
         <!-- 结果序列 -->
         <view wx:elif="{{item.id === 'final'}}" class="block-list-item-bd {{item.open ? 'show' : ''}}">
-          <button bindtap="changeShape" class="action small" hover-class="hover" style="width: 180rpx;">转换成{{resultShape === 'square' ? '单行' : '方阵'}}</button>
+          <button bindtap="changeShape" class="action small" hover-class="hover">转为{{resultShape === 'square' ? '单行' : '方阵'}}</button>
           <!-- 展示为方阵 -->
           <block wx:if="{{resultShape === 'square'}}">
             <view class="card-column">
@@ -202,7 +202,7 @@
         <!-- 反向折叠 -->
         <view wx:elif="{{item.id === 'reverse' && power <= 3}}" class="block-list-item-bd {{item.open ? 'show' : ''}}">
           <view class="multi-line">
-            <text class="small-label">（注意：仅当幂次不超过3时显示反向折叠序列。高于3次的反向序列可能因为过多而难以在手机端显示）</text>
+            <text class="small-label hint">注意：仅当幂次不超过3时显示反向折叠序列。高于3次的反向序列可能因为过多而难以在手机端显示</text>
             <text class="small-label">如果把对折得到的最终序列转换成方阵形式，然后再次按照同样方式进行对折，你猜结果会是什么？</text>
             <block wx:for="{{stepsContentReverse}}" wx:for-item="step" wx:for-index="stepIndex" wx:key="{{stepIndex}}">
               <view class="multi-line" style="margin-top: 10px;">

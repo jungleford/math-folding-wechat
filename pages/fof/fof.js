@@ -187,7 +187,10 @@ Page({
       positionOf: 1,
 
       stepsContent: [],
-      stepsContentReverse: []
+      stepsContentReverse: [],
+
+      showGoto: false,
+      gotoWhere: ''
     });
 
     console.debug('当前算法：' + this.data.algorithm.id);
@@ -245,7 +248,10 @@ Page({
       positionOf: 1,
 
       stepsContent: [],
-      stepsContentReverse: []
+      stepsContentReverse: [],
+
+      showGoto: false,
+      gotoWhere: ''
     });
     console.debug('当前幂次：' + this.data.power);
   },
@@ -314,7 +320,10 @@ Page({
       done: false,
 
       stepsContent: [],
-      stepsContentReverse: []
+      stepsContentReverse: [],
+
+      showGoto: false,
+      gotoWhere: ''
     });
   },
 

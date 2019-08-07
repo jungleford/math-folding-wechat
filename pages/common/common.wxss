@@ -188,3 +188,12 @@ button.small {
   margin-left: 10rpx;
   margin-right: 10rpx;
 }
+
+.hint {
+  border: 1px dashed;
+  border-radius: 8px;
+  background-color: lightyellow;
+  padding: 6px;
+  margin-top: 12px;
+  font-size: 24rpx;
+}

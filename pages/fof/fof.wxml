@@ -57,8 +57,8 @@
             <button id="fold" bindtap="doFolding" disabled="{{done}}" class="action small" hover-class="hover">开始折叠</button>
             <button id="reset" bindtap="reset" class="small" hover-class="hover">重 置</button>
           </view>
-          <view>
-            <text class="small-label">小提示：如果一个展示结果太长，请先点击小标题收起/展开一下该部分，在右下角会出现返回按钮。</text>
+          <view class="multi-line">
+            <text class="small-label hint">小提示：如果一个展示结果太长，请先点击小标题收起/展开一下该部分，在右下角会出现返回按钮。</text>
           </view>
         </view>
 
