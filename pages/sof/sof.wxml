@@ -203,7 +203,7 @@
         <!-- 反向折叠 -->
         <view wx:elif="{{item.id === 'reverse' && power <= 3}}" class="block-list-item-bd {{item.open ? 'show' : ''}}">
           <view class="multi-line">
-            <text class="small-label hint">注意：仅当幂次不超过3时才显示反向折叠序列。高于3次的反向序列可能因为对折局数过多而难以在手机端显示。</text>
+            <text class="small-label hint">小提示：仅当幂次不超过3时才显示反向折叠序列。高于3次的反向序列可能因为对折局数过多而难以在手机端显示。</text>
             <text class="small-label">如果把对折得到的最终序列转换成方阵形式，然后再次按照同样方式进行对折，你猜结果会是什么？</text>
             <block wx:for="{{stepsContentReverse}}" wx:for-item="step" wx:for-index="stepIndex" wx:key="{{stepIndex}}">
               <view class="multi-line" style="margin-top: 10px;">
