@@ -44,6 +44,13 @@ button.small {
   padding-top: 10rpx;
 }
 
+.hyperlink {
+  font-size: 28rpx;
+  color: skyblue;
+  text-decoration-line: underline;
+  text-decoration-style: dashed;
+}
+
 .latex {
   height: 36rpx;
   text-align: left;
@@ -195,5 +202,5 @@ button.small {
   background-color: lightyellow;
   padding: 6px;
   margin-top: 12px;
-  font-size: 24rpx;
+  font-size: 12px;
 }

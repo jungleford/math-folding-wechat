@@ -1,2 +1,119 @@
 <!--pages/about/about.wxml-->
-<text>pages/about/about.wxml</text>
+<view class="container container-no-padding">
+  <!-- 标题 -->
+  <text class="title">说明</text>
+  <text class="small-label">作者：jungleford@水木社区</text>
+
+  <view class="content">
+
+    <view class="paragraph">
+      <text class="small-label" style="color: red;">声明：由于之前本人从未接触过微信小程序的开发，也不是专业美工设计人员，因此本程序的界面和功能都比较简单，仅仅是一个练习作品。本小程序是开源的，欢迎使用，但请务必注明作者和版权信息。</text>
+    </view>
+
+    <view class="paragraph">
+      <text class="subtitle">1. 为何要做这样一个东西</text>
+
+      <text class="small-label">写这么一个小程序的动机，是某次在某个微信群里有同学贴出了这么一道据说是小学奥数题：</text>
+      <image mode="widthFix" src="./puzzle.jpg" class="small-label" />
+      <text class="small-label">题目本身很好理解，但求解还是颇费了众人一番功夫。事情过去之后我打算独自寻找一下这个问题的具体计算方法，于是写了一个最初的react版本（参见下面“相关项目”）。之后考虑到算法部分可以公用，于是把它抽出来放到一个单独的npm包叫做math-folding。</text>
+      <text class="small-label">最近正好在上手微信小程序，就花了几周的空闲时间把react界面移植到小程序中，这就是本小程序产生的缘由。</text>
+    </view>
+
+    <view class="paragraph">
+      <text class="subtitle">2. 问题的分析</text>
+
+      <text class="small-label">虽然原始题目只要求64格的求解，但是我希望至少能够推导出“一阶”和“二阶”两种情形下对折序列的一般求解。</text>
+      <text class="small-label">所谓“一阶”就是数字按照一维排列，也只按一维的方向对折；而“二阶”就是原始题目中按照方阵形式排列，并且也按照两个方向有序对折。</text>
+      <text class="small-label">我提供了两种算法：“递归算法”（Recursive）和“公式算法”（Formula，也称“非递归算法”）。一般地说，公式算法性能要好于递归算法，特别是当幂次较高的对折过程，比如二阶五次对折，公式法比递归计算界面响应要快上十几倍。</text>
+      <text class="small-label">递归算法比较简单易懂，我的研究主要是集中非递归方式求解，其中的过程（特别是对于二阶对折）有些复杂。限于篇幅，具体分析过程请参考：</text>
+      <text class="hyperlink">https://github.com/jungleford/math-folding/blob/master/docs/index.md</text>
+    </view>
+
+    <view class="paragraph">
+      <text class="subtitle">3. 如何使用</text>
+
+      <text class="small-label list item-title">● 首页</text>
+      <view class="multi-line list item-content">
+        <text class="small-label">本小程序界面比较简单，仅有三个功能页面。首页入口有三个按钮：</text>
+        <text class="small-label">点击“说明”即进入本页面；</text>
+        <text class="small-label">点击“一阶对折”进入一阶对折演示页面；</text>
+        <text class="small-label">点击“二阶对折”进入二阶对折演示页面。</text>
+      </view>
+
+      <text class="small-label list item-title">● 算法演示</text>
+      <view class="multi-line list item-content">
+        <text class="small-label">一阶对折和二阶对折界面基本一致，具有以下共同功能：</text>
+        <text class="small-label">＞ 区块段落</text>
+        <text class="small-label list item-content">页面由若干区块组成，这些区块是可折叠的，点击浅灰色条上的粗体标题即可收起/展开一个区块。页面包含以下区块：</text>
+        <text class="small-label">＞ 选项</text>
+        <text class="small-label list item-content">可以选择计算使用的算法，和渲染结果使用的样式。</text>
+        <text class="small-label list item-content">滑动选择算法：“递归”或“公式”；</text>
+        <text class="small-label list item-content">滑动选择渲染样式：“普通”或“卡片”。</text>
+        <text class="small-label">＞ 问题</text>
+        <text class="small-label list item-content">对问题的描述。</text>
+        <text class="small-label">＞ 参数</text>
+        <text class="small-label list item-content">目前只有幂次这一个参数可以调整,滑动数字选择幂次。</text>
+        <text class="small-label list item-content">限于显示区域和性能，这里仅限于展示不高于5次的对折序列。选择好幂次之后点击“开始折叠”即开始计算。</text>
+        <text class="small-label list item-content">计算结束后在下方出现“结果序列”、“探索”、“步骤重现”、“反向折叠”这几个区块。其中“步骤重现”和“反向折叠”仅适用于递归算法，并且对于高于3次的二阶对折过程，不显示“反向折叠”。</text>
+        <text class="small-label list item-content">点击“重置”清空以上区块，回到初始序列/方阵。</text>
+        <text class="small-label list item-content">对于二阶对折，尤其是在递归算法计算次数较高的情形时，性能可能会比较差，界面会有几秒钟左右的卡顿，请稍作等待观察计算结果。</text>
+        <text class="small-label">＞ 初始序列/方阵</text>
+        <text class="small-label list item-content">展示一阶对折的初始序列，或二阶对折的初始方阵。</text>
+        <text class="small-label list item-content">切换“选项”中的“样式”，可将序列/方阵展示为普通数字或者彩色数字卡片。</text>
+        <text class="small-label">＞ 计算方法</text>
+        <text class="small-label list item-content">仅当选择公式算法时显示。</text>
+        <text class="small-label list item-content">简要提示在非递归情况下如何计算最终序列。详细分析参见：</text>
+        <text class="small-label list item-content hyperlink">https://github.com/jungleford/math-folding/blob/master/docs/index.md</text>
+        <text class="small-label">＞ 结果序列</text>
+        <text class="small-label list item-content">展示对折操作的最终结果。</text>
+        <text class="small-label list item-content">切换“选项”中的“样式”，可将序列/方阵展示为普通数字或者彩色数字卡片。</text>
+        <text class="small-label list item-content">对于二阶对折，默认显示一维结果，点击“转为方阵”可将结果变成方阵形式，再点击“转为单行”可恢复至一维。</text>
+        <text class="small-label">＞ 探索</text>
+        <text class="small-label list item-content">根据计算结果推算的结论。主要包括两个功能：</text>
+        <text class="small-label list item-content">根据给出的数字推算它在结果序列中的位置；</text>
+        <text class="small-label list item-content">根据结果序列的位置推算该位置上的数字。</text>
+        <text class="small-label list item-content">这里填入的数字是个计数组件，可以点中数字框直接输入，也可以按“＜”减1，或按“＞”加1。</text>
+        <text class="small-label">＞ 步骤重现</text>
+        <text class="small-label list item-content">仅当选择递归算法时显示。</text>
+        <text class="small-label list item-content">一步一步展示从初始序列/方阵到最终结果序列的对折过程。界面上的每个黑边方框代表每次对折步骤中的一个“纸片堆”，方框内从下往上堆叠着当前步骤下在同一“堆”内的数字。</text>
+        <text class="small-label list item-content">切换“选项”中的“样式”，可将序列/方阵展示为普通数字或者彩色数字卡片。</text>
+        <text class="small-label list item-content">当一阶对折次数高于3或者二阶对折时，本区块的显示区域过大，因此会在右下角出现一个圆形“返回”按钮，点击可回到本区块开始处。此按钮需要先收起再展开一次本区块方能显示。</text>
+        <text class="small-label">＞ 反向折叠</text>
+        <text class="small-label list item-content">仅当选择递归算法时显示，对于二阶对折仅当次数不超过3时显示。</text>
+        <text class="small-label list item-content">验证对折过程的对称性。观察从结果序列是如何通过再次对折操作又重新回到初始序列/方阵的。</text>
+        <text class="small-label list item-content">切换“选项”中的“样式”，可将序列/方阵展示为普通数字或者彩色数字卡片。</text>
+        <text class="small-label list item-content">当一阶对折次数高于3或者二阶对折时，本区块的显示区域过大，因此会在右下角出现一个圆形“返回”按钮，点击可回到本区块开始处。此按钮需要先收起再展开一次本区块方能显示。</text>
+      </view>
+    </view>
+
+    <view class="paragraph">
+      <text class="subtitle">4. 相关项目</text>
+
+      <text class="small-label">本小程序为开源项目，可在以下github网址找到：</text>
+
+      <text class="small-label list item-title">● math-folding-wechat</text>
+      <view class="multi-line list item-content">
+        <text class="small-label hyperlink">https://github.com/jungleford/math-folding-wechat</text>
+        <text class="small-label">本小程序在github上的代码库</text>
+      </view>
+
+      <text class="small-label list item-title">● math-folding</text>
+      <view class="multi-line list item-content">
+        <text class="small-label hyperlink">https://github.com/jungleford/math-folding</text>
+        <text class="small-label">本小程序所依赖的算法部分</text>
+      </view>
+
+      <text class="small-label list item-title">● math-folding-react</text>
+      <view class="multi-line list item-content">
+        <text class="small-label hyperlink">https://github.com/jungleford/math-folding-react</text>
+        <text class="small-label">另一个用于演示对折问题的Web界面程序，基于ReactJS和MaterialUI</text>
+      </view>
+
+      <text class="small-label">此外本小程序也用到和改写过一些网上的例子代码，如：</text>
+      <text class="hyperlink">https://segmentfault.com/q/1010000009512609</text>
+      <text class="hyperlink">hhttps://www.zhangxinxu.com/wordpress/?p=8386</text>
+      <text class="small-label">在此也向原作者表示感谢。</text>
+    </view>
+
+  </view>
+</view>

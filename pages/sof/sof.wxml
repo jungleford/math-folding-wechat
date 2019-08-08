@@ -59,7 +59,7 @@
             <button id="reset" bindtap="reset" class="small" hover-class="hover">重 置</button>
           </view>
           <view class="multi-line">
-            <text class="small-label hint">小提示：递归算法下幂次越高响应速度越慢，需要等待几秒钟。如果一个展示结果太长，请先点击小标题收起/展开一下该部分，在右下角会出现返回按钮。</text>
+            <text class="small-label hint">小提示：在递归算法下，幂次越高响应和渲染速度越慢，需要等待几秒钟。如果一个展示结果太长，请先点击小标题收起/展开一下该部分，在右下角会出现返回按钮。</text>
           </view>
         </view>
 
@@ -88,10 +88,11 @@
         <!-- 非递归算法描述 -->
         <view wx:elif="{{item.id === 'intro'}}" class="block-list-item-bd {{item.open ? 'show' : ''}}">
           <view>
-            <text>关于公式法（又称非递归算法）计算的步骤和详细分析，参见“说明”页中给出的github地址。以下是结论：</text>
+            <text>关于公式法（又称非递归算法）计算的步骤和详细分析，参见“说明”页中分析部分给出的github地址。以下是结论：</text>
           </view>
           <view class="multi-line">
             <image mode="aspectFit" src="http://latex.codecogs.com/gif.latex?P(1)=1" class="latex" />
+            <text>如果x是奇数，则它的后继偶数的位置比较容易得到：</text>
             <image mode="aspectFit" src="http://latex.codecogs.com/gif.latex?P(x+1)=4^k-P(x)+1,%5Cquad%5Ctextrm%7Bx%20is%20odd%7D" class="latex" />
             <text>倘若x是偶数，那么情况要复杂得多。</text>
             <text>首先，如果判定x位于一个“正规节”内，那么</text>
@@ -202,7 +203,7 @@
         <!-- 反向折叠 -->
         <view wx:elif="{{item.id === 'reverse' && power <= 3}}" class="block-list-item-bd {{item.open ? 'show' : ''}}">
           <view class="multi-line">
-            <text class="small-label hint">注意：仅当幂次不超过3时显示反向折叠序列。高于3次的反向序列可能因为过多而难以在手机端显示</text>
+            <text class="small-label hint">注意：仅当幂次不超过3时才显示反向折叠序列。高于3次的反向序列可能因为对折局数过多而难以在手机端显示。</text>
             <text class="small-label">如果把对折得到的最终序列转换成方阵形式，然后再次按照同样方式进行对折，你猜结果会是什么？</text>
             <block wx:for="{{stepsContentReverse}}" wx:for-item="step" wx:for-index="stepIndex" wx:key="{{stepIndex}}">
               <view class="multi-line" style="margin-top: 10px;">
