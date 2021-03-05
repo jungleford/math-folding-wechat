@@ -19,4 +19,5 @@ $ npm install
 ## 相关项目
 
 * [math-folding](https://github.com/jungleford/math-folding): 本小程序所依赖的算法部分。
+* [math-folding-doc](https://github.com/jungleford/math-folding-doc): 算法的详细解说。
 * [math-folding-react](https://github.com/jungleford/math-folding-react): 另一个用于演示对折问题的Web界面程序，基于[React JS](https://github.com/facebook/react)和[Material UI](https://github.com/mui-org/material-ui)。

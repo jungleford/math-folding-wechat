@@ -26,7 +26,7 @@
       <text class="small-label">所谓“一阶”就是数字按照一维排列，也只按一维的方向对折；而“二阶”就是原始题目中按照方阵形式排列，并且也按照两个方向有序对折。</text>
       <text class="small-label">我提供了两种算法：“递归算法”（Recursive）和“公式算法”（Formula，也称“非递归算法”）。一般地说，公式算法性能要好于递归算法，特别是当幂次较高的对折过程，比如二阶五次对折，公式法比递归计算界面响应要快上十几倍。</text>
       <text class="small-label">递归算法比较简单易懂，我的研究主要是集中非递归方式求解，其中的过程（特别是对于二阶对折）有些复杂。限于篇幅，具体分析过程请参考：</text>
-      <text class="hyperlink">https://github.com/jungleford/math-folding/blob/master/docs/index.md</text>
+      <text class="hyperlink">https://github.com/jungleford/math-folding-doc</text>
     </view>
 
     <view class="paragraph">
@@ -63,7 +63,7 @@
         <text class="small-label">＞ 计算方法</text>
         <text class="small-label list item-content">仅当选择公式算法时显示。</text>
         <text class="small-label list item-content">简要提示在非递归情况下如何计算最终序列。详细分析参见：</text>
-        <text class="small-label list item-content hyperlink">https://github.com/jungleford/math-folding/blob/master/docs/index.md</text>
+        <text class="small-label list item-content hyperlink">https://github.com/jungleford/math-folding-doc</text>
         <text class="small-label">＞ 结果序列</text>
         <text class="small-label list item-content">展示对折操作的最终结果。</text>
         <text class="small-label list item-content">切换“选项”中的“样式”，可将序列/方阵展示为普通数字或者彩色数字卡片。</text>
@@ -111,7 +111,7 @@
 
       <text class="small-label">此外本小程序也用到和改写过一些网上的例子代码，如：</text>
       <text class="hyperlink">https://segmentfault.com/q/1010000009512609</text>
-      <text class="hyperlink">hhttps://www.zhangxinxu.com/wordpress/?p=8386</text>
+      <text class="hyperlink">https://www.zhangxinxu.com/wordpress/?p=8386</text>
       <text class="small-label">在此也向原作者表示感谢。</text>
     </view>
 
